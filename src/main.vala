@@ -94,5 +94,7 @@ public int main(string args[])
 	// free resources
 	// pipe.set_state (Gst.State.NULL);
 
+	Gst.init (ref args);
+
 	return new Lycheese.Application ().run (args);
 }
