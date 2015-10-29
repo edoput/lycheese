@@ -5,10 +5,11 @@ using Streaming;
 public class Lycheese.Application : Gtk.Application
 {
 
+	private CookieCollector cookie_collector;
 	private GLib.Settings settings;
 	static	MainWindow main_window;
 	static  Streaming.StreamPipeline streaming_pipeline;
-	static  GLib.Notification on_air_notification;
+	
 
 	private const GLib.ActionEntry action_entries[] = {
 		{ "quit", on_quit }
@@ -45,7 +46,6 @@ public class Lycheese.Application : Gtk.Application
 			main_window = new Lycheese.MainWindow (this);
 
 			streaming_pipeline = new Streaming.StreamPipeline ();
-
 			// Lycheese's name get displayed even without this
 			// Environment.set_application_name ("Lycheese");
 
@@ -68,6 +68,7 @@ public class Lycheese.Application : Gtk.Application
 		else
 		{
 			common_init ();
+			common_inhibit ();
 		}
 	}
 
@@ -80,19 +81,55 @@ public class Lycheese.Application : Gtk.Application
 	}
 
 	/**
-	 *
+	 * Ideally the user shouldn't be able to logout or switch,
+	 * and the computer shouldn't go into suspension or idling
 	 */
-	// private bool on_screen_key_pressed (Gdk.EventKey event)
-	//	{
-	//		if (event.state != 0
-	//			&& (
-	//				(
-	//					event.state & Gdk.ModifierType.CONTROL_MASK != 0
-	//				)
-	//
-	//				||
-	//
-	//				(
-	//					event.state & 
-	//	}
+	private void common_inhibit ()
+	{
+		cookie_collector.logout_cookie = this.inhibit (
+			main_window,
+			Gtk.ApplicationInhibitFlags.LOGOUT,
+			"Streaming your session inhibit logout"
+		);
+
+		if (cookie_collector.logout_cookie == 0)
+		{
+			stderr.puts ("Could not inhibit logout");
+		}
+
+		cookie_collector.switch_user_cookie = this.inhibit (
+			main_window,
+			Gtk.ApplicationInhibitFlags.SWITCH,
+			"Streaming your session inhibit switch"
+		);
+
+		if (cookie_collector.switch_user_cookie == 0)
+		{
+			stderr.puts ("Could not inhibit switching user");
+		}
+
+		cookie_collector.suspend_cookie = this.inhibit (
+			main_window,
+			Gtk.ApplicationInhibitFlags.SUSPEND,
+			"Streaming your session inhibit suspension"
+		);
+
+		if (cookie_collector.suspend_cookie == 0)
+		{
+			stderr.puts ("Could not inhibit suspension");
+		}
+
+		cookie_collector.idle_cookie = this.inhibit (
+			main_window,
+			Gtk.ApplicationInhibitFlags.IDLE,
+			"Streaming your session inhibit idle"
+		);
+		
+		if (cookie_collector.idle_cookie == 0)
+		{
+			stderr.puts ("Could not inhibit idling");
+		}
+
+	}
+
 }
