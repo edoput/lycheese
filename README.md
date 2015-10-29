@@ -1,6 +1,8 @@
 Lycheese
 ========
 
+![Lycheese running](/img/lycheese_screenshot.png)
+
 Lycheese is an application to stream live events from your device to services like Youtube Live, Twich, Ustream etc.
 
 # Why The Name?
@@ -25,8 +27,9 @@ Install libgstreamer1.0-dev, libgtk3-dev
 ```bash
 sudo apt-get install libgstreamer1.0-dev libgtk3-dev
 ```
+and then
 
-```
+```bash
 make
 ```
 
@@ -36,6 +39,21 @@ make
 make run
 ```
 
+or 
+
+```bash
+./application
+```
+
 # Install
 
 Geez, it's not even alpha!
+
+# Why Vala?
+
+Don't know, seemed pretty
+
+
+# Interesting branches
+
+ - webm: I saw somewhere that we could do a live stream with WebM instead of Flash, seemed interesting; don't know the feasibility or if there really are live WebM server out there
