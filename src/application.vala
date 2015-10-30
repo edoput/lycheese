@@ -21,7 +21,6 @@ public class Lycheese.Application : Gtk.Application
 				application_id: "it.edoput.Lycheese",
 				flags: ApplicationFlags.FLAGS_NONE
 			   );
-
 	}
 
 	// protected override void startup ()
@@ -49,7 +48,6 @@ public class Lycheese.Application : Gtk.Application
 			// Lycheese's name get displayed even without this
 			// Environment.set_application_name ("Lycheese");
 
-			streaming_pipeline.stream ();
 			this.add_window (main_window);
 
 		}
@@ -69,6 +67,7 @@ public class Lycheese.Application : Gtk.Application
 		{
 			common_init ();
 			common_inhibit ();
+			listen_for_streaming_events ();
 		}
 	}
 
@@ -130,6 +129,31 @@ public class Lycheese.Application : Gtk.Application
 			stderr.puts ("Could not inhibit idling");
 		}
 
+	}
+
+
+	private void listen_for_streaming_events ()
+	{
+		main_window.start_streaming.connect (
+			start_streaming
+			);
+
+		main_window.end_streaming.connect (
+			stop_streaming
+			);
+	}
+	/**
+	 * start/stop the pipeline
+	 */
+	private void start_streaming ()
+	{
+		streaming_pipeline.stream ();
+	}
+
+
+	private void stop_streaming ()
+	{
+		streaming_pipeline.end_stream ();
 	}
 
 }
