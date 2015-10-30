@@ -90,6 +90,7 @@ namespace Streaming
 		private void encoder_init ()
 		{
 			x264_encoder.set ("byte-stream", true);
+			x264_encoder.set ("sliced-threads", true);
 		}
 
 		private void file_init ()
