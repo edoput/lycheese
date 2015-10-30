@@ -1,36 +1,32 @@
 
-// int main (string[] args)
-// {
-// 	Gtk.init(ref args);
-// 	
-// 	var window = new Window();
-// 	window.title = "Lycheese - a streaming solution";
-// 	window.window_position = WindowPosition.CENTER;
-// 	window.destroy.connect (Gtk.main_quit);
-// 
-// 	var top_widget = new Gtk.Grid();
-// 	var webcam_button = new Gtk.ToggleButton.with_label ("Webcam");
-// 	var screen_button = new Gtk.ToggleButton.with_label ("Screen");
-// 	var both_button = new Gtk.ToggleButton.with_label ("Both");
-// 
-// 	top_widget.attach (webcam_button, 0, 0);
-// 	top_widget.attach (screen_button, 1, 0);
-// 	top_widget.attach (both_button, 2, 0);
-// 
-// 	window.add (top_widget);
-// 
-// 	window.show_all ();
-// 	Gtk.main();
-// 	return 0;
-// }
-
 using Gtk;
 
 class Lycheese.MainWindow : Gtk.ApplicationWindow
 {
 	private GLib.Settings settings;
 
-//	private Cheese.Camera camera;
+	/**
+	 *  the variables we are using to build the interface
+	 */
+	private Gtk.ButtonBox button_box;
+
+	private Gtk.ToggleButton record_button;
+
+	private Gtk.ToggleButton webcam_button;
+
+	private Gtk.ToggleButton screen_button;
+
+	private Gtk.ToggleButton both_button;
+
+	/**
+	 * a signal on which the application can listen to start streaming
+	 */
+	public signal void start_streaming ();
+
+	/**
+	 * a signal on which the application can listen to stop streaming
+	 */
+	public signal void end_streaming ();
 
 	private const GLib.ActionEntry ations[] = {
 		{"settings", show_settings}
@@ -41,29 +37,77 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 		GLib.Object (application: application);
 
 		Gtk.Settings settings = Gtk.Settings.get_default ();
+
 		this.init_gui();
+		this.register_callback();
 	}
 	
 	private void init_gui () {
 		this.title = "Lycheese";
+
 		this.window_position = WindowPosition.CENTER;
+
 		this.destroy.connect (Gtk.main_quit);
 
-		var top_widget = new Gtk.Grid ();
+		button_box = new Gtk.ButtonBox (
+	        	Gtk.Orientation.VERTICAL
+		);
 
-		var webcam_button = new Gtk.ToggleButton.with_label ("Webcam");
-		var screen_button = new Gtk.ToggleButton.with_label ("Screen");
-		var both_button = new Gtk.ToggleButton.with_label ("Both");
-		top_widget.attach (webcam_button, 0, 0);
-		top_widget.attach (screen_button, 1, 0);
-		top_widget.attach (both_button, 2, 0);
+		button_box.homogeneous = true;
 
-		this.add (top_widget);
+		record_button = new Gtk.ToggleButton.with_label ("Record and stream");
+
+		webcam_button = new Gtk.ToggleButton.with_label ("Webcam");
+		screen_button = new Gtk.ToggleButton.with_label ("Screen");
+		both_button = new Gtk.ToggleButton.with_label ("Both");
+
+		button_box.add (record_button);
+
+		button_box.add (webcam_button);
+
+		button_box.add (screen_button);
+
+		button_box.add (both_button);
+
+		this.add (button_box);
 
 		this.show_all ();
+
+		
+	}
+
+	private void register_callback ()
+	{
+		record_button.toggled.connect (
+			on_record_button_press_event
+			);
+	}
+
+	public void on_record_button_press_event ()
+	{
+		if (record_button.active)
+		{
+			// trigger signal to start streaming
+			start_streaming ();
+		} else
+		{
+			// trigger signal to stop streaming
+			end_streaming ();
+		}
+		return;
 	}
 
 	public void on_webcam_button_press_event ()
+	{
+		return;
+	}
+
+	public void on_screen_button_press_event ()
+	{
+		return;
+	}
+
+	public void on_both_button_press_event ()
 	{
 		return;
 	}
