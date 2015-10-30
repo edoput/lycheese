@@ -57,3 +57,8 @@ Don't know, seemed pretty
 # Interesting branches
 
  - webm: I saw somewhere that we could do a live stream with WebM instead of Flash, seemed interesting; don't know the feasibility or if there really are live WebM server out there
+
+ - x264_threaded_slice: [sliced threads][sliced_thread] can lower the latency but are inefficient
+
+
+ [sliced_thread]: http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-ugly-plugins/html/gst-plugins-ugly-plugins-x264enc.html#GstX264Enc--sliced-threads
