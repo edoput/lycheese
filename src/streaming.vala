@@ -11,14 +11,16 @@ namespace Streaming
 		private Gst.Element color_convert;
 		private Gst.Element x264_encoder;
 		private Gst.Element flv_muxer;
-		private Gst.Element file;
+		//private Gst.Element file;
+		private Gst.Element rtmp_sink;
 
 		public StreamPipeline ()
 		{
 			common_init ();
 			encoder_init ();
-			file_init ();
+		//	file_init ();
 			muxer_init ();
+			rtmp_sink_init ();
 			screen_init ();
 
 			this.add_many (
@@ -28,7 +30,7 @@ namespace Streaming
 				color_convert,
 				x264_encoder,
 				flv_muxer,
-				file
+				rtmp_sink
 				);
 
 			// video linking
@@ -41,7 +43,7 @@ namespace Streaming
 			speex_encoder.link (flv_muxer);
 
 			// muxed stream to sink
-			flv_muxer.link (file);
+			flv_muxer.link (rtmp_sink);
 
 		}
 
@@ -70,8 +72,11 @@ namespace Streaming
 			flv_muxer = Gst.ElementFactory.make (
 				"flvmux", "muxer"
 				);
-			file = Gst.ElementFactory.make (
-				"filesink", "sink"
+			// file = Gst.ElementFactory.make (
+			// 	"filesink", "sink"
+			// 	);
+			rtmp_sink = Gst.ElementFactory.make (
+				"rtmpsink", "rtmp_sink"
 				);
 
 			if (
@@ -81,7 +86,9 @@ namespace Streaming
 				color_convert == null ||
 				x264_encoder == null ||
 				flv_muxer == null ||
-				file == null )
+			//	file == null ||
+				rtmp_sink == null
+				)
 			{
 				stderr.puts ("Could not create an element\n");
 			}
@@ -92,14 +99,19 @@ namespace Streaming
 			x264_encoder.set ("byte-stream", true);
 		}
 
-		private void file_init ()
-		{
-			file.set ("location", "./test.flv");
-		}
+		// private void file_init ()
+		// {
+		// 	file.set ("location", "./test.flv");
+		// }
 
 		private void muxer_init ()
 		{
 			flv_muxer.set ("streamable", true);
+		}
+
+		private void rtmp_sink_init ()
+		{
+			rtmp_sink.set ("location", "rtmp://127.0.0.1:1935/live/livestream");
 		}
 
 		private void screen_init ()
