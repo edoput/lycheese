@@ -42,7 +42,7 @@ make run
 or 
 
 ```bash
-./application
+./lycheese
 ```
 
 # Install
