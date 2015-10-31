@@ -60,5 +60,22 @@ Don't know, seemed pretty
 
  - x264_threaded_slice: [sliced threads][sliced_thread] can lower the latency but are inefficient
 
+# How can I test the streaming?
 
+Install the [simple rmtp server][srs], you can download binaries for [Ubuntu 14.04][srs_binaries], and there is a INSTALL file, just run it with `sudo ./INSTALL`.
+
+SRS is provided with default configurations and an init script to use it.
+
+Edit the file _/etc/init.d/srs_, replace `.CONFIG="./conf/srs.conf"` with `.CONFIG="./conf/demo.srs"`, restart the server with the command `sudo /etc/init.d/srs restart` .
+
+Now there is a rtmp server running on your machine, it will listen to incoming streams on the url `rtmp://0.0.0.0:1935/live/livestream` and you can see them on the same url using media players live VLC.
+
+To start the server `sudo  /etc/init.d/srs start` .
+To stop the server `sudo  /etc/init.d/srs stop` .
+To add it to the startup processes `sudo /etc/init.d/srs enable` .
+To remove it from the startup processes `sudo  /etc/init.d/srs disable` .
+
+Changin the init file will require a restart `sudo /etc/init.d/srs restart` .
  [sliced_thread]: http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-ugly-plugins/html/gst-plugins-ugly-plugins-x264enc.html#GstX264Enc--sliced-threads
+ [srs]: https://github.com/simple-rtmp-server/srs
+ [srs_binaries]: http://winlinvip.github.io/srs.release/releases/
