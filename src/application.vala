@@ -131,6 +131,27 @@ public class Lycheese.Application : Gtk.Application
 
 	}
 
+	/**
+	 * We should release the lock on the computer after exiting
+	 */
+	private void common_uninhibit ()
+	{
+		this.uninhibit (
+			cookie_collector.logout_cookie
+		);
+
+		this.uninhibit (
+			cookie_collector.switch_user_cookie
+		);
+
+		this.uninhibit (
+			cookie_collector.suspend_cookie
+		);
+
+		this.uninhibit (
+			cookie_collector.idle_cookie
+		);
+	}
 
 	private void listen_for_streaming_events ()
 	{
@@ -148,12 +169,14 @@ public class Lycheese.Application : Gtk.Application
 	private void start_streaming ()
 	{
 		streaming_pipeline.stream ();
+		return;
 	}
 
 
 	private void stop_streaming ()
 	{
 		streaming_pipeline.end_stream ();
+		return;
 	}
 
 }
