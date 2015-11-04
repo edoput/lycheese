@@ -2,19 +2,34 @@ using Gst;
 using GLib;
 using Streaming;
 
+/**
+ * The application that has a event_loop, required for Gstreamer
+ * to function
+ */
 public class Lycheese.Application : Gtk.Application
 {
 
 	private CookieCollector cookie_collector;
 	private GLib.Settings settings;
 	static	MainWindow main_window;
+	// static  PreferencesWindow preferences_window;
 	static  Streaming.StreamPipeline streaming_pipeline;
 	
 
+	/*
+	 * Actions to be presented to the user from the
+	 * application menu
+	 */
 	private const GLib.ActionEntry action_entries[] = {
+		{ "preferences", on_preferences },
+		{ "help", on_help },
+		{ "about", on_about},
 		{ "quit", on_quit }
 	};
 
+	/**
+	 * Constructor of the Lycheese.Application class
+	 */
 	public Application ()
 	{
 		GLib.Object(
@@ -23,14 +38,10 @@ public class Lycheese.Application : Gtk.Application
 			   );
 	}
 
-	// protected override void startup ()
-	// {
-	// 	settings = new GLib.Settings ("it.edoput.Lycheese");
 
-	// 	add_action_entries (action_entries, this);
-
-	// }
-
+	/**
+	 * 
+	 */
 	private void common_init ()
 	{
 		if (this.get_windows () == null)
@@ -56,6 +67,14 @@ public class Lycheese.Application : Gtk.Application
 
 	/**
 	 * main window should be a singleton
+	 * called when the main application wants to run
+	 * in graphic mode
+	 *
+	 * 1. create the main_window and present it to the user
+	 * 2. create the streaming_pipeline
+	 * 3. inhibit every action the device could take that
+	 * would interfer with the application streaming
+	 * 4. listen for signal to start/end streaming
 	 */
 	protected override void activate ()
 	{
@@ -71,6 +90,45 @@ public class Lycheese.Application : Gtk.Application
 		}
 	}
 
+	/**
+	 *
+	 */
+	// protected override void startup ()
+	// {
+	// 	add_action_entries (action_entries, this);
+	// 	base.startup ();
+	// }
+
+	/**
+	 * Show the preferences dialog
+	 */
+	private void on_preferences ()
+	{
+	// 	if (preferences_window == null)
+	// 	{
+	// 		preferences_window = new SettingsWindow();
+	// 		preferences_window.destroy.connect (
+	// 			()=> {
+	// 				preferences_window = null;
+	// 			}
+	// 		);
+	// 		preferences_window.show_all ();
+	// 	} else {
+	// 		preferences_window.present ();
+	// 	}
+	}
+	/**
+	 * Display a brief help
+	 */
+	private void on_help ()
+	{
+	}
+	/**
+	 * Display a window with info about Lycheese
+	 */
+	private void on_about ()
+	{
+	}
 	/** 
 	 * Destroy the main window, close application
 	 */
@@ -82,6 +140,9 @@ public class Lycheese.Application : Gtk.Application
 	/**
 	 * Ideally the user shouldn't be able to logout or switch,
 	 * and the computer shouldn't go into suspension or idling
+	 *
+	 * Every inhibit action returns a different inhibit cookie
+	 * that we should store to uninhibit later
 	 */
 	private void common_inhibit ()
 	{
@@ -131,26 +192,42 @@ public class Lycheese.Application : Gtk.Application
 
 	}
 
-
+	/**
+	 * Introduced to listen for signals from the main_window.
+	 * MainWindow has to signals:
+	 * - start_streaming
+	 * - end_streaming
+	 * 
+	 * triggered when the user want to start or end the streaming
+	 *
+	 * signals in vala https://wiki.gnome.org/Projects/Vala/SignalsAndCallbacks
+	 * signals in GLib http://valadoc.org/#!api=gobject-2.0/GLib.Signal
+	 */
 	private void listen_for_streaming_events ()
 	{
+		// when start_streaming is recieved
+		// start the pipeline
 		main_window.start_streaming.connect (
 			start_streaming
 			);
-
+		// when end_streaming is recieved
+		// stop the pipeline
 		main_window.end_streaming.connect (
 			stop_streaming
 			);
 	}
+
 	/**
-	 * start/stop the pipeline
+	 * start the streaming_pipeline
 	 */
 	private void start_streaming ()
 	{
 		streaming_pipeline.stream ();
 	}
 
-
+	/**
+	 * stop the streaming_pipeline
+	 */
 	private void stop_streaming ()
 	{
 		streaming_pipeline.end_stream ();
