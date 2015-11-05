@@ -11,14 +11,12 @@ namespace Streaming
 		private Gst.Element color_convert;
 		private Gst.Element x264_encoder;
 		private Gst.Element flv_muxer;
-		//private Gst.Element file;
 		private Gst.Element rtmp_sink;
 
 		public StreamPipeline ()
 		{
 			common_init ();
 			encoder_init ();
-		//	file_init ();
 			muxer_init ();
 			rtmp_sink_init ();
 			screen_init ();
@@ -72,9 +70,6 @@ namespace Streaming
 			flv_muxer = Gst.ElementFactory.make (
 				"flvmux", "muxer"
 				);
-			// file = Gst.ElementFactory.make (
-			// 	"filesink", "sink"
-			// 	);
 			rtmp_sink = Gst.ElementFactory.make (
 				"rtmpsink", "rtmp_sink"
 				);
@@ -86,7 +81,6 @@ namespace Streaming
 				color_convert == null ||
 				x264_encoder == null ||
 				flv_muxer == null ||
-			//	file == null ||
 				rtmp_sink == null
 				)
 			{
@@ -98,11 +92,6 @@ namespace Streaming
 		{
 			x264_encoder.set ("byte-stream", true);
 		}
-
-		// private void file_init ()
-		// {
-		// 	file.set ("location", "./test.flv");
-		// }
 
 		private void muxer_init ()
 		{
