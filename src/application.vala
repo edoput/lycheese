@@ -3,12 +3,11 @@ using GLib;
 using Streaming;
 
 /**
- * The application that has a event_loop, required for Gstreamer
- * to function
+ * The application that has a //event loop// (required for Gstreamer
+ * to function)
  */
 public class Lycheese.Application : Gtk.Application
 {
-
 	private CookieCollector cookie_collector;
 	private GLib.Settings settings;
 	static	MainWindow main_window;
@@ -40,7 +39,9 @@ public class Lycheese.Application : Gtk.Application
 
 
 	/**
-	 * 
+	 * 1. create the main_window
+	 * 2. create the streaming pipeline
+	 * 3. add main_window to the application windows list
 	 */
 	private void common_init ()
 	{
@@ -67,6 +68,7 @@ public class Lycheese.Application : Gtk.Application
 
 	/**
 	 * main window should be a singleton
+	 *
 	 * called when the main application wants to run
 	 * in graphic mode
 	 *
@@ -194,14 +196,16 @@ public class Lycheese.Application : Gtk.Application
 
 	/**
 	 * Introduced to listen for signals from the main_window.
+	 *
 	 * MainWindow has to signals:
+	 *
 	 * - start_streaming
 	 * - end_streaming
 	 * 
-	 * triggered when the user want to start or end the streaming
+	 * both triggered when the user want to start or end the streaming
 	 *
-	 * signals in vala https://wiki.gnome.org/Projects/Vala/SignalsAndCallbacks
-	 * signals in GLib http://valadoc.org/#!api=gobject-2.0/GLib.Signal
+	 * [[https://wiki.gnome.org/Projects/Vala/SignalsAndCallbacks|signal in vala]]
+	 * [[http://valadoc.org/#!api=gobject-2.0/GLib.Signal|signals in GLib]]
 	 */
 	private void listen_for_streaming_events ()
 	{
@@ -210,10 +214,39 @@ public class Lycheese.Application : Gtk.Application
 		main_window.start_streaming.connect (
 			start_streaming
 			);
+
 		// when end_streaming is recieved
 		// stop the pipeline
 		main_window.end_streaming.connect (
 			stop_streaming
+			);
+			
+		// when switch_to_default is recieved
+		// set the source of the pipeline to
+		// the default one
+		main_window.switch_to_default.connect (
+			switch_to_default_source
+			);
+
+		// when switch_to_screen is recieved
+		// set the source of the pipeline to
+		// the screen
+		main_window.switch_to_screen.connect (
+			switch_to_screen_source
+			);
+
+		// when switch_to_webcam is recieved
+		// set the source of the pipeline to
+		// the webcam
+		main_window.switch_to_webcam.connect (
+			switch_to_webcam_source
+			);
+
+		// when switch_to_both is recieved
+		// set the source of the pipeline to
+		// both screen and webcam
+		main_window.switch_to_webcam.connect (
+			switch_to_webcam_source
 			);
 	}
 
@@ -233,4 +266,36 @@ public class Lycheese.Application : Gtk.Application
 		streaming_pipeline.end_stream ();
 	}
 
+	/**
+	 * switch the streaming_pipeline to the default
+	 * source
+	 */
+	private void switch_to_default_source ()
+	{
+		streaming_pipeline.stream_default ();
+	}
+
+	/**
+	 * set the streaming_pipeline source to screen
+	 */
+	private void switch_to_screen_source ()
+	{
+		streaming_pipeline.stream_screen ();
+	}
+
+	/**
+	 * set the streaming_pipeline source to screen
+	 */
+	private void switch_to_webcam_source ()
+	{
+		streaming_pipeline.stream_webcam ();
+	}
+
+	/**
+	 * set the streaming_pipeline source to screen
+	 */
+	private void switch_to_both_source ()
+	{
+		streaming_pipeline.stream_both ();
+	}
 }
