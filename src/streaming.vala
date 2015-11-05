@@ -171,6 +171,11 @@ namespace Streaming
 			return true;
 		}
 
+		public bool stream_default ()
+		{
+			return true;
+		}
+
 	}
 }
 
