@@ -28,6 +28,26 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 	 */
 	public signal void end_streaming ();
 
+	/**
+	 * signal to switch streaming source to default source
+	 */
+	public signal void switch_to_default ();
+
+	/**
+	 * signal to switch streaming source to screen
+	 */
+	public signal void switch_to_screen ();
+
+	/**
+	 * signal to switch streaming source to webcam
+	 */
+	public signal void switch_to_webcam ();
+	
+	/**
+	 * signal to switch streaming source to both screen and webcam
+	 */
+	public signal void switch_to_both ();
+
 	private const GLib.ActionEntry ations[] = {
 		{"settings", show_settings}
 	};
@@ -76,10 +96,27 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 		
 	}
 
+	/**
+	 * connect the toggle on/off events from buttons
+	 * to the correct handler
+	 */
 	private void register_callback ()
 	{
+
 		record_button.toggled.connect (
 			on_record_button_press_event
+			);
+
+		webcam_button.toggled.connect (
+			on_webcam_button_press_event
+			);
+
+		screen_button.toggled.connect (
+			on_screen_button_press_event
+			);
+
+		both_button.toggled.connect (
+			on_both_button_press_event
 			);
 	}
 
@@ -99,16 +136,49 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
 	public void on_webcam_button_press_event ()
 	{
+		if (webcam_button.active)
+		{
+			// trigger signal to switch video
+			// source to webcam
+			switch_to_webcam ();
+		} else
+		{
+			// trigger signal to switch video
+			// source to default
+			switch_to_default ();
+		}
 		return;
 	}
 
 	public void on_screen_button_press_event ()
 	{
+		if (screen_button.active)
+		{
+			// trigger signal to switch video
+			// source to screen
+			switch_to_screen ();
+		} else
+		{
+			// trigger signal to switch video
+			// source to default
+			switch_to_default ();
+		}
 		return;
 	}
 
 	public void on_both_button_press_event ()
 	{
+		if (both_button.active)
+		{
+			// trigger signal to switch video
+			// source to both webcam and screen
+			switch_to_both ();
+		} else
+		{
+			// trigger signal to switch video
+			// source to default
+			switch_to_default ();
+		}
 		return;
 	}
 
