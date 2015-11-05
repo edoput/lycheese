@@ -8,10 +8,23 @@ using Streaming;
  */
 public class Lycheese.Application : Gtk.Application
 {
+	/**
+	 * where we store the result from the inhibition
+	 * of idling, suspension, log out and switch user
+	 */
 	private CookieCollector cookie_collector;
 	private GLib.Settings settings;
+
+	/**
+	 * the window associated to the application
+	 */
 	static	MainWindow main_window;
 	// static  PreferencesWindow preferences_window;
+
+	/**
+	 * the GStreamer pipeline we use to process and
+	 * stream the audio/video sources
+	 */
 	static  Streaming.StreamPipeline streaming_pipeline;
 	
 
@@ -39,6 +52,9 @@ public class Lycheese.Application : Gtk.Application
 
 
 	/**
+	 * Called from the method activate to bootstrap the application
+	 * and its components
+	 *
 	 * 1. create the main_window
 	 * 2. create the streaming pipeline
 	 * 3. add main_window to the application windows list
@@ -82,9 +98,11 @@ public class Lycheese.Application : Gtk.Application
 	{
 		if (this.get_windows () != null)
 		{
+			// main_window is binded to the application;
+			// if it has already been created just present
+			// it to the user
 			main_window.present ();
-		}
-		else
+		} else
 		{
 			common_init ();
 			common_inhibit ();
