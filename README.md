@@ -9,12 +9,14 @@ Lycheese is an application to stream live events from your device to services li
 
 A bad pun of mine based on "Live Cheese" where cheese is one of the Gnome project apps, and imho one of the best piece of software you can get your hands on to record your funny faces :P
 
+And yes it is a [delicious fruit][lychee_on_wikipedia]
+
 # Structure
 
 - main.vala
-	here lies the calle of the application
+	here lies the callee of the Gtk.Application
 - application.vala
-	the subclass of Gtk.Application, where you can find the code that deals with the streaming
+	the subclass of Gtk.Application, where you can find the code that deals with the interactions
 - window.vala
 	the subclass of Gtk.WindowApplication, where you can find the code related to UI
 - streaming.vala
@@ -75,7 +77,9 @@ To stop the server `sudo  /etc/init.d/srs stop` .
 To add it to the startup processes `sudo /etc/init.d/srs enable` .
 To remove it from the startup processes `sudo  /etc/init.d/srs disable` .
 
-Changin the init file will require a restart `sudo /etc/init.d/srs restart` .
- [sliced_thread]: http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-ugly-plugins/html/gst-plugins-ugly-plugins-x264enc.html#GstX264Enc--sliced-threads
- [srs]: https://github.com/simple-rtmp-server/srs
- [srs_binaries]: http://winlinvip.github.io/srs.release/releases/
+Changing the init file will require a restart `sudo /etc/init.d/srs restart` .
+
+[lychee_on_wikipedia]: https://en.wikipedia.org/wiki/Lychee
+[sliced_thread]: http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-ugly-plugins/html/gst-plugins-ugly-plugins-x264enc.html#GstX264Enc--sliced-threads
+[srs]: https://github.com/simple-rtmp-server/srs
+[srs_binaries]: http://winlinvip.github.io/srs.release/releases/
