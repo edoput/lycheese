@@ -22,6 +22,11 @@ public class Lycheese.Application : Gtk.Application
 	// static  PreferencesWindow preferences_window;
 
 	/**
+	 * dialog: prompt user for rtmp url
+	 */
+	static Gtk.Dialog ask_url_dialog;
+
+	/**
 	 * the GStreamer pipeline we use to process and
 	 * stream the audio/video sources
 	 */
