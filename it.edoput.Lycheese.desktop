@@ -1,0 +1,9 @@
+[Desktop Entry]
+version=alpha
+Encoding=UTF-8
+Name=Lycheese
+Comment=Stream your desktop or webcam
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Utility
