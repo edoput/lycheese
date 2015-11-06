@@ -24,7 +24,7 @@ public class Lycheese.Application : Gtk.Application
 	/**
 	 * dialog: prompt user for rtmp url
 	 */
-	static Gtk.Dialog ask_url_dialog;
+	static RtmpUrlDialog rtmp_url_dialog;
 
 	/**
 	 * the GStreamer pipeline we use to process and
@@ -76,6 +76,8 @@ public class Lycheese.Application : Gtk.Application
 			// }
 
 			main_window = new Lycheese.MainWindow (this);
+
+			rtmp_url_dialog = new Lycheese.RtmpUrlDialog ();
 
 			streaming_pipeline = new Streaming.StreamPipeline ();
 			// Lycheese's name get displayed even without this
