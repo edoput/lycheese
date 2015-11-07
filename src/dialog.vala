@@ -8,6 +8,9 @@ class Lycheese.RtmpUrlDialog : Gtk.Dialog
 	static Gtk.Entry url_entry;
 	static Gtk.Entry key_entry;
 
+	public signal void change_rtmp_url ();
+	public signal void change_stream_key ();
+
 	public RtmpUrlDialog ()
 	{
 		init ();
@@ -21,6 +24,7 @@ class Lycheese.RtmpUrlDialog : Gtk.Dialog
 
 	private void create_widget ()
 	{
+		this.title = "Lycheese";
 		url_entry = new Gtk.Entry();
 		var url_label = new Gtk.Label.with_mnemonic ("_url");
 		url_label.mnemonic_widget = url_entry;
@@ -49,5 +53,39 @@ class Lycheese.RtmpUrlDialog : Gtk.Dialog
 		add_button (Stock.CONNECT, ResponseType.APPLY);
 
 		show_all ();
+	}
+
+	private void register_callback ()
+	{
+		url_entry.changed.connect(
+			on_url_changed
+		);
+
+		key_entry.changed.connect(
+			on_key_changed
+		);
+	}
+
+	private void on_url_changed ()
+	{
+		stdout.puts (url_entry.text);
+		change_rtmp_url ();
+	}
+
+	private void on_key_changed ()
+	{
+		stdout.puts (key_entry.text);
+		change_stream_key ();
+	}
+
+	private void on_response (Gtk.Dialog source, int response_id)
+	{
+		switch (response_id)
+		{
+			case (ResponseType.HELP):
+				break;
+			case (ResponseType.APPLY):
+				break;
+		}
 	}
 }
