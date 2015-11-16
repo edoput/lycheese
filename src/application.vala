@@ -77,7 +77,7 @@ public class Lycheese.Application : Gtk.Application
 
 			main_window = new Lycheese.MainWindow (this);
 
-			rtmp_url_dialog = new Lycheese.RtmpUrlDialog ();
+			rtmp_url_dialog = new Lycheese.RtmpUrlDialog (main_window);
 
 			streaming_pipeline = new Streaming.StreamPipeline ();
 			// Lycheese's name get displayed even without this
