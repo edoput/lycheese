@@ -1,20 +1,43 @@
 using GLib;
 using Gtk;
 
+/**
+ * A dialog with two text entry
+ */
 class Lycheese.RtmpUrlDialog : Gtk.Dialog
 {
+	/**
+	 * Variable to hold Dialog flags
+	 */
 	private Gtk.DialogFlags dialog_flags;
 
+	/**
+	 * Variable to hold the rtmp url provided by the user
+	 */
 	static Gtk.Entry url_entry;
+
+	/**
+	 *  Variable to hold the rtmp key provided by the user
+	 */
 	static Gtk.Entry key_entry;
 
+	/**
+	 * Signal to change rtmp url to listening application
+	 */
 	public signal void change_rtmp_url ();
+
+	/**
+	 * Signal to change rtmp key to listening application
+	 */
 	public signal void change_stream_key ();
 
-	public RtmpUrlDialog ()
+	/**
+	 * RtmpUrlDialog constructor
+	 */
+	public RtmpUrlDialog (Gtk.Window main_window)
 	{
 		init ();
-		create_widget ();
+		create_widget (main_window);
 	}
 
 	private void init ()
@@ -22,7 +45,12 @@ class Lycheese.RtmpUrlDialog : Gtk.Dialog
 //		dialog_flags = Gtk.DialogFlags
 	}
 
-	private void create_widget ()
+	/**
+	 * Create the widget
+	 *
+	 * set_transient_for is 
+	 */
+	private void create_widget (Gtk.Window main_window)
 	{
 		this.title = "Lycheese";
 		url_entry = new Gtk.Entry();
@@ -52,7 +80,9 @@ class Lycheese.RtmpUrlDialog : Gtk.Dialog
 		add_button (Stock.HELP, ResponseType.HELP);
 		add_button (Stock.CONNECT, ResponseType.APPLY);
 
-		show_all ();
+		this.set_transient_for (main_window);
+
+		// show_all ();
 	}
 
 	private void register_callback ()
