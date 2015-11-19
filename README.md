@@ -5,6 +5,16 @@ Lycheese
 
 Lycheese is an application to stream live events from your device to services like Youtube Live, Twich, Ustream etc.
 
+# What's working?
+
+It compiles and can stream to a server whose address is hardcoded.
+
+# What's missing?
+
+Getting user input for the service url.
+
+Dynamic soure switching.
+
 # Why The Name?
 
 A bad pun of mine based on "Live Cheese" where cheese is one of the Gnome project apps, and imho one of the best piece of software you can get your hands on to record your funny faces :P
