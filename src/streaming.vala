@@ -18,7 +18,6 @@ namespace Streaming
 			common_init ();
 			encoder_init ();
 			muxer_init ();
-			rtmp_sink_init ();
 			screen_init ();
 
 			this.add_many (
@@ -112,7 +111,7 @@ namespace Streaming
 		private void switch_source (
 			Gst.Element source,
 			Gst.Element pipeline_head
-		)
+			)
 		{
 			
 		}
@@ -163,6 +162,11 @@ namespace Streaming
 		public bool stream_default ()
 		{
 			return true;
+		}
+
+		public void set_rtmp (string url, string key)
+		{
+			rtmp_sink.set ("location", url + "/" + key);
 		}
 
 	}
