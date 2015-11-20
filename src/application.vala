@@ -13,6 +13,7 @@ public class Lycheese.Application : Gtk.Application
 	 * of idling, suspension, log out and switch user
 	 */
 	private CookieCollector cookie_collector;
+
 	private GLib.Settings settings;
 
 	/**
@@ -235,9 +236,9 @@ public class Lycheese.Application : Gtk.Application
 	private void listen_for_streaming_events ()
 	{
 		// when start_streaming is recieved
-		// start the pipeline
+		// display the dialog asking the url
 		main_window.start_streaming.connect (
-			start_streaming
+			request_url
 			);
 
 		// when end_streaming is recieved
@@ -273,13 +274,29 @@ public class Lycheese.Application : Gtk.Application
 		main_window.switch_to_webcam.connect (
 			switch_to_webcam_source
 			);
+
+		// when the user enter the url and key
+		// pair pass it to the pipeline and
+		// start streaming
+		rtmp_url_dialog.url_entered.connect (
+			start_streaming
+		);
+	}
+
+	/**
+	 * show the dialog asking the url, key pair
+	 */
+	public void request_url ()
+	{
+		rtmp_url_dialog.show_all ();
 	}
 
 	/**
 	 * start the streaming_pipeline
 	 */
-	private void start_streaming ()
+	private void start_streaming (string url, string key)
 	{
+		streaming_pipeline.set_rtmp (url, key);
 		streaming_pipeline.stream ();
 	}
 
