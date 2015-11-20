@@ -7,13 +7,13 @@ Lycheese is an application to stream live events from your device to services li
 
 # What's working?
 
-It compiles and can stream to a server whose address is hardcoded.
+It compiles and can stream to a server whose address is ~~~hardcoded~~~ provided by the user.
 
 # What's missing?
 
-Getting user input for the service url.
-
-Dynamic soure switching.
+- [x] ~~~Getting user input for the service url.~~~
+- [ ] Dynamic soure switching.
+- [ ] Input validation
 
 # Why The Name?
 
