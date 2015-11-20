@@ -201,19 +201,9 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
 	public void lock_source ()
 	{
-		if (screen_button.active)
-		{
-			webcam_button.set_sensitive (false);
-			both_button.set_sensitive (false);
-		} else if (webcam_button.active)
-		{
-			screen_button.set_sensitive (false);
-			both_button.set_sensitive (false);
-		} else
-		{
 			screen_button.set_sensitive (false);
 			webcam_button.set_sensitive (false);
-		}
+			both_button.set_sensitive (false);
 	}
 
 	public void unlock_source ()
