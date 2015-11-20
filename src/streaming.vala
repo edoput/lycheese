@@ -6,7 +6,7 @@ namespace Streaming
 	class StreamPipeline : Gst.Pipeline	
 	{
 		private Gst.Element audio;
-		private Gst.Element speex_encoder;
+		private Gst.Element mp3_encoder;
 		private Gst.Element screen;
 		private Gst.Element color_convert;
 		private Gst.Element x264_encoder;
@@ -22,7 +22,7 @@ namespace Streaming
 
 			this.add_many (
 				audio,
-				speex_encoder,
+				mp3_encoder,
 				screen,
 				color_convert,
 				x264_encoder,
@@ -36,8 +36,8 @@ namespace Streaming
 			x264_encoder.link (flv_muxer);
 
 			// audio linking
-			audio.link (speex_encoder);
-			speex_encoder.link (flv_muxer);
+			audio.link (mp3_encoder);
+			mp3_encoder.link (flv_muxer);
 
 			// muxed stream to sink
 			flv_muxer.link (rtmp_sink);
@@ -53,8 +53,8 @@ namespace Streaming
 			// TODO: move somewhere else audio
 			audio.set ("is-live", true);
 
-			speex_encoder = Gst.ElementFactory.make (
-				"speexenc", "speexenc"
+			mp3_encoder = Gst.ElementFactory.make (
+				"lamemp3enc", "mp3enc"
 				);
 
 			screen = Gst.ElementFactory.make (
@@ -75,7 +75,7 @@ namespace Streaming
 
 			if (
 				audio == null ||
-				speex_encoder == null ||
+				mp3_encoder == null ||
 				screen == null ||
 				color_convert == null ||
 				x264_encoder == null ||
