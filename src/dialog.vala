@@ -31,6 +31,12 @@ class Lycheese.RtmpUrlDialog : Gtk.Dialog
 	 */
 	public signal void change_stream_key ();
 
+
+	/**
+	 * Signal to pass the server url
+	 */
+	public signal void url_entered (string url, string key);
+
 	/**
 	 * RtmpUrlDialog constructor
 	 */
@@ -38,6 +44,7 @@ class Lycheese.RtmpUrlDialog : Gtk.Dialog
 	{
 		init ();
 		create_widget (main_window);
+		this.response.connect (on_response);
 	}
 
 	private void init ()
@@ -82,30 +89,6 @@ class Lycheese.RtmpUrlDialog : Gtk.Dialog
 
 		this.set_transient_for (main_window);
 
-		// show_all ();
-	}
-
-	private void register_callback ()
-	{
-		url_entry.changed.connect(
-			on_url_changed
-		);
-
-		key_entry.changed.connect(
-			on_key_changed
-		);
-	}
-
-	private void on_url_changed ()
-	{
-		stdout.puts (url_entry.text);
-		change_rtmp_url ();
-	}
-
-	private void on_key_changed ()
-	{
-		stdout.puts (key_entry.text);
-		change_stream_key ();
 	}
 
 	private void on_response (Gtk.Dialog source, int response_id)
@@ -115,6 +98,14 @@ class Lycheese.RtmpUrlDialog : Gtk.Dialog
 			case (ResponseType.HELP):
 				break;
 			case (ResponseType.APPLY):
+				// signal the listener that we have a
+				// new url, key pair
+				url_entered (
+					url_entry.text,
+					key_entry.text
+					);
+				// hide the dialog without destroying it
+				hide ();
 				break;
 		}
 	}
