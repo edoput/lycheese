@@ -126,10 +126,14 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 		{
 			// trigger signal to start streaming
 			start_streaming ();
+			// lock the source by deactivating the sources buttons
+			lock_source ();
 		} else
 		{
 			// trigger signal to stop streaming
 			end_streaming ();
+			// unlock the source by activating the sources buttons
+			unlock_source ();
 		}
 		return;
 	}
@@ -193,5 +197,29 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 	public void show_settings ()
 	{
 		return;
+	}
+
+	public void lock_source ()
+	{
+		if (screen_button.active)
+		{
+			webcam_button.set_sensitive (false);
+			both_button.set_sensitive (false);
+		} else if (webcam_button.active)
+		{
+			screen_button.set_sensitive (false);
+			both_button.set_sensitive (false);
+		} else
+		{
+			screen_button.set_sensitive (false);
+			webcam_button.set_sensitive (false);
+		}
+	}
+
+	public void unlock_source ()
+	{
+			screen_button.set_sensitive (true);
+			webcam_button.set_sensitive (true);
+			both_button.set_sensitive (true);
 	}
 }
