@@ -47,11 +47,8 @@ namespace Streaming
 		private void common_init ()
 		{
 			audio = Gst.ElementFactory.make (
-				"audiotestsrc", "audio"
+				"autoaudiosrc", "audio"
 			);
-
-			// TODO: move somewhere else audio
-			audio.set ("is-live", true);
 
 			mp3_encoder = Gst.ElementFactory.make (
 				"lamemp3enc", "mp3enc"
