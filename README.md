@@ -7,12 +7,18 @@ Lycheese is an application to stream live events from your device to services li
 
 # What's working?
 
-It compiles and can stream to a server whose address is ~~~hardcoded~~~ provided by the user.
+It compiles and can stream to a server whose address is ~~~hardcoded~~~ provided by the user (tried with Youtube).
+
+# How to stream
+
+Run **Lycheese** and click on "Record and stream", the app will prompt you for the rtmp url and stream key.
 
 # What's missing?
 
 - [x] ~~~Getting user input for the service url.~~~
-- [ ] Dynamic soure switching.
+- [ ] Enable different video sources (screen is the only available ATM) 
+- [ ] Provide a mute button.
+- [ ] Dynamic source switching.
 - [ ] Input validation
 
 # Why The Name?
@@ -34,10 +40,11 @@ And yes it is a [delicious fruit][lychee_on_wikipedia]
 
 # Build
 
-Install libgstreamer1.0-dev, libgtk3-dev
+Install libgstreamer1.0-dev, libgtk3-dev, gstreamer1.0-plugins-good, gstreamer1.0-plugins-bad, gstreamer1.0-plugins-base,  gstreamer1.0-plugins-ugly
+
 
 ```bash
-sudo apt-get install libgstreamer1.0-dev libgtk3-dev
+sudo apt-get install libgstreamer1.0-dev libgtk3-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-base gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly
 ```
 and then
 
@@ -59,7 +66,9 @@ or
 
 # Install
 
-Geez, it's not even alpha!
+Geez, it's ~~not even alpha!~~ beta!
+
+![It's working](http://www.reactiongifs.us/wp-content/uploads/2013/07/its_working_star_wars.gif)
 
 # Why Vala?
 
@@ -73,6 +82,8 @@ Don't know, seemed pretty
  - x264_threaded_slice: [sliced threads][sliced_thread] can lower the latency but are inefficient
 
 # How can I test the streaming?
+
+## local server
 
 Install the [simple rmtp server][srs], you can download binaries for [Ubuntu 14.04][srs_binaries], and there is a INSTALL file, just run it with `sudo ./INSTALL`.
 
@@ -88,6 +99,10 @@ To add it to the startup processes `sudo /etc/init.d/srs enable` .
 To remove it from the startup processes `sudo  /etc/init.d/srs disable` .
 
 Changing the init file will require a restart `sudo /etc/init.d/srs restart` .
+
+## youtube
+
+Log in Youtube and go to the "Live streaming" section, scroll down till the config card, there are both the rtmp url and stream key.
 
 [lychee_on_wikipedia]: https://en.wikipedia.org/wiki/Lychee
 [sliced_thread]: http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-ugly-plugins/html/gst-plugins-ugly-plugins-x264enc.html#GstX264Enc--sliced-threads
