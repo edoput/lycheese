@@ -6,11 +6,14 @@ namespace Streaming
 	class StreamPipeline : Gst.Pipeline	
 	{
 		private Gst.Element audio;
-		private Gst.Element mp3_encoder;
+		private Gst.Element audio_queue;
+		private Gst.Element aac_encoder;
 		private Gst.Element screen;
 		private Gst.Element color_convert;
+		private Gst.Element video_queue;
 		private Gst.Element x264_encoder;
 		private Gst.Element flv_muxer;
+		private Gst.Element stream_queue;
 		private Gst.Element rtmp_sink;
 
 		public StreamPipeline ()
@@ -22,25 +25,31 @@ namespace Streaming
 
 			this.add_many (
 				audio,
-				mp3_encoder,
+				audio_queue,
+				aac_encoder,
 				screen,
 				color_convert,
+				video_queue,
 				x264_encoder,
 				flv_muxer,
+				stream_queue,
 				rtmp_sink
 				);
 
 			// video linking
-			screen.link (color_convert);
-			color_convert.link (x264_encoder);
+			screen.link (video_queue);
+			video_queue.link (color_convert);
+			color_convert.link  (x264_encoder);
 			x264_encoder.link (flv_muxer);
 
 			// audio linking
-			audio.link (mp3_encoder);
-			mp3_encoder.link (flv_muxer);
+			audio.link (audio_queue);
+			audio_queue.link (aac_encoder);
+			aac_encoder.link (flv_muxer);
 
 			// muxed stream to sink
-			flv_muxer.link (rtmp_sink);
+			flv_muxer.link (stream_queue);
+			stream_queue.link (rtmp_sink);
 
 		}
 
@@ -50,12 +59,19 @@ namespace Streaming
 				"autoaudiosrc", "audio"
 			);
 
-			mp3_encoder = Gst.ElementFactory.make (
-				"lamemp3enc", "mp3enc"
+			audio_queue = Gst.ElementFactory.make (
+				"queue", "audioqueue"
+				);
+
+			aac_encoder = Gst.ElementFactory.make (
+				"faac", "aacenc"
 				);
 
 			screen = Gst.ElementFactory.make (
 				"ximagesrc", "screen"
+				);
+			video_queue = Gst.ElementFactory.make (
+				"queue", "videoqueue"
 				);
 			color_convert = Gst.ElementFactory.make (
 				"videoconvert", "convert"
@@ -66,17 +82,23 @@ namespace Streaming
 			flv_muxer = Gst.ElementFactory.make (
 				"flvmux", "muxer"
 				);
+			stream_queue = Gst.ElementFactory.make (
+				"queue", "streamqueue"
+				);
 			rtmp_sink = Gst.ElementFactory.make (
 				"rtmpsink", "rtmp_sink"
 				);
 
 			if (
 				audio == null ||
-				mp3_encoder == null ||
+				aac_encoder == null ||
+				audio_queue == null ||
 				screen == null ||
+				video_queue == null ||
 				color_convert == null ||
 				x264_encoder == null ||
 				flv_muxer == null ||
+				stream_queue == null ||
 				rtmp_sink == null
 				)
 			{
@@ -86,7 +108,11 @@ namespace Streaming
 
 		private void encoder_init ()
 		{
-			x264_encoder.set ("byte-stream", true);
+			x264_encoder.set ("byte-stream", false);
+			x264_encoder.set ("key-int-max", 60);
+			x264_encoder.set ("bframes", 0);
+			x264_encoder.set ("zerolatency", true);
+			x264_encoder.set ("aud", true);
 		}
 
 		private void muxer_init ()
