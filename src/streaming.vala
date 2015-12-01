@@ -12,6 +12,7 @@ namespace Streaming
 		private Gst.Element color_convert;
 		private Gst.Element video_queue;
 		private Gst.Element x264_encoder;
+		private Gst.Element h264_parser;
 		private Gst.Element flv_muxer;
 		private Gst.Element stream_queue;
 		private Gst.Element rtmp_sink;
@@ -31,6 +32,7 @@ namespace Streaming
 				color_convert,
 				video_queue,
 				x264_encoder,
+				h264_parser,
 				flv_muxer,
 				stream_queue,
 				rtmp_sink
@@ -40,7 +42,8 @@ namespace Streaming
 			screen.link (video_queue);
 			video_queue.link (color_convert);
 			color_convert.link  (x264_encoder);
-			x264_encoder.link (flv_muxer);
+			x264_encoder.link (h264_parser);
+			h264_parser.link (flv_muxer);
 
 			// audio linking
 			audio.link (audio_queue);
@@ -79,6 +82,9 @@ namespace Streaming
 			x264_encoder = Gst.ElementFactory.make (
 				"x264enc", "x264enc"
 				);
+			h264_parser = Gst.ElementFactory.make (
+				"h264parser", "videoparser"
+				);
 			flv_muxer = Gst.ElementFactory.make (
 				"flvmux", "muxer"
 				);
@@ -97,6 +103,7 @@ namespace Streaming
 				video_queue == null ||
 				color_convert == null ||
 				x264_encoder == null ||
+				h264_parser == null ||
 				flv_muxer == null ||
 				stream_queue == null ||
 				rtmp_sink == null
