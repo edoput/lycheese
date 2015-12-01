@@ -64,7 +64,7 @@ namespace Streaming
 				);
 
 			aac_encoder = Gst.ElementFactory.make (
-				"faac", "aacenc"
+				"voaacenc", "aacenc"
 				);
 
 			screen = Gst.ElementFactory.make (
