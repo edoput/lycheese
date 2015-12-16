@@ -223,13 +223,20 @@ public class Lycheese.Application : Gtk.Application
 	/**
 	 * Introduced to listen for signals from the main_window.
 	 *
-	 * MainWindow has to signals:
+	 * Application listen for these signals from main_window
 	 *
 	 * - start_streaming
 	 * - end_streaming
+	 * - switch_to_default
+	 * - switch_to_screen
+	 * - switch_to_webcam
+	 * - switch_to_both
+         *
+         * Application listen for these signals from the rtmp_url_dialog
+         *
+         * - url_entered
+         *
 	 * 
-	 * both triggered when the user want to start or end the streaming
-	 *
 	 * [[https://wiki.gnome.org/Projects/Vala/SignalsAndCallbacks|signal in vala]]
 	 * [[http://valadoc.org/#!api=gobject-2.0/GLib.Signal|signals in GLib]]
 	 */
@@ -271,8 +278,8 @@ public class Lycheese.Application : Gtk.Application
 		// when switch_to_both is recieved
 		// set the source of the pipeline to
 		// both screen and webcam
-		main_window.switch_to_webcam.connect (
-			switch_to_webcam_source
+		main_window.switch_to_both.connect (
+			switch_to_both_source
 			);
 
 		// when the user enter the url and key
