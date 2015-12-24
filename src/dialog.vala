@@ -22,17 +22,6 @@ class Lycheese.RtmpUrlDialog : Gtk.Dialog
 	static Gtk.Entry key_entry;
 
 	/**
-	 * Signal to change rtmp url to listening application
-	 */
-	public signal void change_rtmp_url ();
-
-	/**
-	 * Signal to change rtmp key to listening application
-	 */
-	public signal void change_stream_key ();
-
-
-	/**
 	 * Signal to pass the server url
 	 */
 	public signal void url_entered (string url, string key);
