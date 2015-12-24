@@ -108,11 +108,26 @@ namespace Streaming
 
 		private void encoder_init ()
 		{
+                        // 0: Constant Bitrate Encoding is required in many
+                        // streaming services
+                        x264_encoder.set ("pass", 0);
+                        // byte-stream: false, do not generate byte stream format of NALU
 			x264_encoder.set ("byte-stream", false);
+                        // Maximal distance between two key-frames
 			x264_encoder.set ("key-int-max", 60);
+                        // Number of B-frames between I and P
 			x264_encoder.set ("bframes", 0);
-			x264_encoder.set ("zerolatency", true);
+                        // Use AU (Access Unit) delimiter
 			x264_encoder.set ("aud", true);
+                        // Preset name for non-psychovisual tuning options
+                        // 0x00000004: zerolatency
+                        x264_encoder.set ("tune", 0x00000004);
+                        
+                        // Preset name for speed/quality tradeoff options
+                        // (can affect decode compatibility - impose
+                        // restrictions separately for your target decoder)
+                        // 1: ultrafast
+                        x264_encoder.set ("speed-preset", 1);
 		}
 
 		private void muxer_init ()
