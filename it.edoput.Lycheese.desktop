@@ -1,10 +1,11 @@
 [Desktop Entry]
+Version=beta
+Encoding=UTF-8
 Name=Lycheese
 Comment=Stream your desktop or webcam to RTMP servers
-Categories=Gtk;Utility;
-Exec=lycheese
+Exec=/home/edoput/.local/bin/lycheese
+Icon=
 Terminal=false
 Type=Application
-version=0.1
-Encoding=UTF-8
 StartupNotify=true
+Categories=Gnome;Gtk;Utility;
