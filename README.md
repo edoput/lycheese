@@ -7,7 +7,7 @@ Lycheese is an application to stream live events from your device to services li
 
 # What's working?
 
-It compiles and can stream to a server whose address is ~~~hardcoded~~~ provided by the user (tried with Youtube).
+It compiles and can stream to a server whose address is ~~hardcoded~~ provided by the user (tried with Youtube).
 
 # How to stream
 
@@ -15,11 +15,12 @@ Run **Lycheese** and click on "Record and stream", the app will prompt you for t
 
 # What's missing?
 
-- [x] ~~~Getting user input for the service url.~~~
+- [x] ~~Getting user input for the service url.~~
 - [ ] Enable different video sources (screen is the only available ATM) 
 - [ ] Provide a mute button.
 - [ ] Dynamic source switching.
 - [ ] Input validation
+- [ ] feedback from Gstreamer to the user
 
 # Why The Name?
 
@@ -37,11 +38,12 @@ And yes it is a [delicious fruit][lychee_on_wikipedia]
 	the subclass of Gtk.WindowApplication, where you can find the code related to UI
 - streaming.vala
 	the subclass of Gst.Pipeline, where you can find the code related to the task of audio/video processing
+- cookies.vala
+        the struct where are stored the inhibition cookies 
 
 # Build
 
-Install libgstreamer1.0-dev, libgtk3-dev, gstreamer1.0-plugins-good, gstreamer1.0-plugins-bad, gstreamer1.0-plugins-base,  gstreamer1.0-plugins-ugly
-
+Install `libgstreamer1.0-dev`, `libgtk3-dev`
 
 ```bash
 sudo apt-get install libgstreamer1.0-dev libgtk3-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-base gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly
@@ -49,37 +51,25 @@ sudo apt-get install libgstreamer1.0-dev libgtk3-dev gstreamer1.0-plugins-good g
 and then
 
 ```bash
+./autogen.sh
 make
-```
-
-# Run
-
-```
-make run
-```
-
-or 
-
-```bash
-./lycheese
 ```
 
 # Install
 
-Geez, it's ~~not even alpha!~~ beta!
-
-![It's working](http://www.reactiongifs.us/wp-content/uploads/2013/07/its_working_star_wars.gif)
+```bash
+make install
+```
 
 # Why Vala?
 
 Don't know, seemed pretty
 
-
 # Interesting branches
 
  - webm: I saw somewhere that we could do a live stream with WebM instead of Flash, seemed interesting; don't know the feasibility or if there really are live WebM server out there
 
- - x264_threaded_slice: [sliced threads][sliced_thread] can lower the latency but are inefficient
+ - `x264_threaded_slice`: [sliced threads][sliced_thread] can lower the latency but are inefficient
 
 # How can I test the streaming?
 
@@ -94,8 +84,11 @@ Edit the file _/etc/init.d/srs_, replace `.CONFIG="./conf/srs.conf"` with `.CONF
 Now there is a rtmp server running on your machine, it will listen to incoming streams on the url `rtmp://0.0.0.0:1935/live/livestream` and you can see them on the same url using media players live VLC.
 
 To start the server `sudo  /etc/init.d/srs start` .
+
 To stop the server `sudo  /etc/init.d/srs stop` .
+
 To add it to the startup processes `sudo /etc/init.d/srs enable` .
+
 To remove it from the startup processes `sudo  /etc/init.d/srs disable` .
 
 Changing the init file will require a restart `sudo /etc/init.d/srs restart` .
