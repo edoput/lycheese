@@ -32,6 +32,9 @@ namespace Streaming
 		private Gst.Element stream_queue;
 		private Gst.Element rtmp_sink;
 
+                public signal void pipeline_start_error ();
+                public signal void pipeline_start_ok ();
+
 		public StreamPipeline ()
 		{
 			common_init ();
@@ -186,8 +189,10 @@ namespace Streaming
 			if (ret == Gst.StateChangeReturn.FAILURE)
 			{
 				stderr.puts ("Could not start pipeline\n");
+                                pipeline_start_error ();
 			} else {
 				stdout.puts ("Pipeline is playing\n");
+                                pipeline_start_ok ();
 			}
 		}
 

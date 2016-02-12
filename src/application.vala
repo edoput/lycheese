@@ -31,6 +31,12 @@ public class Lycheese.Application : Gtk.Application
 
 	private GLib.Settings settings;
 
+        /**
+         * the notification we can fire to inform the user
+         * of some events
+         */
+        private GLib.Notification lycheese_notification;
+
 	/**
 	 * the window associated to the application
 	 */
@@ -96,6 +102,8 @@ public class Lycheese.Application : Gtk.Application
 			rtmp_url_dialog = new Lycheese.RtmpUrlDialog (main_window);
 
 			streaming_pipeline = new Streaming.StreamPipeline ();
+
+                        lycheese_notification = new GLib.Notification ("Lycheese");
 			// Lycheese's name get displayed even without this
 			// Environment.set_application_name ("Lycheese");
 
@@ -130,6 +138,7 @@ public class Lycheese.Application : Gtk.Application
 			common_init ();
 			common_inhibit ();
 			listen_for_streaming_events ();
+			listen_for_pipeline_events ();
 		}
 	}
 
@@ -311,6 +320,44 @@ public class Lycheese.Application : Gtk.Application
 			start_streaming
 		);
 	}
+
+        
+
+	/**
+	 * Introduced to listen for signals from the pipeline
+	 *
+	 * Application listen for these signals from pipeline 
+	 *
+	 * - pipeline_start_ok
+         * - pipeline_start_error
+         *
+	 * [[https://wiki.gnome.org/Projects/Vala/SignalsAndCallbacks|signal in vala]]
+	 * [[http://valadoc.org/#!api=gobject-2.0/GLib.Signal|signals in GLib]]
+	 */
+	private void listen_for_pipeline_events ()
+	{
+                // the pipeline has been created and could be started
+                streaming_pipeline.pipeline_start_ok.connect (
+                        notify_streaming_ok
+                );
+                // the pipeline could not be started
+                streaming_pipeline.pipeline_start_error.connect (
+                        notify_streaming_error
+                );
+	}
+
+
+        private void notify_streaming_ok ()
+        {
+                lycheese_notification.set_body ("Your video is streaming");
+                this.send_notification ("Started streaming", lycheese_notification);
+        }
+
+        private void notify_streaming_error ()
+        {
+                lycheese_notification.set_body ("Could not start the streaming, error with Gstreamer pipeline");
+                this.send_notification ("Started streaming", lycheese_notification);
+        }
 
 	/**
 	 * show the dialog asking the url, key pair
