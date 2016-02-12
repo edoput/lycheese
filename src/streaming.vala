@@ -21,6 +21,7 @@ namespace Streaming
 	class StreamPipeline : Gst.Pipeline	
 	{
 		private Gst.Element audio;
+                private Gst.Element audio_volume;
 		private Gst.Element audio_queue;
 		private Gst.Element aac_encoder;
 		private Gst.Element screen;
@@ -40,6 +41,7 @@ namespace Streaming
 
 			this.add_many (
 				audio,
+                                audio_volume,
 				audio_queue,
 				aac_encoder,
 				screen,
@@ -58,7 +60,8 @@ namespace Streaming
 			x264_encoder.link (flv_muxer);
 
 			// audio linking
-			audio.link (audio_queue);
+			audio.link (audio_volume);
+                        audio_volume.link (audio_queue);
 			audio_queue.link (aac_encoder);
 			aac_encoder.link (flv_muxer);
 
@@ -72,7 +75,11 @@ namespace Streaming
 		{
 			audio = Gst.ElementFactory.make (
 				"autoaudiosrc", "audio"
-			);
+			        );
+
+                        audio_volume = Gst.ElementFactory.make (
+                                "volume", "volume_control"
+                                );
 
 			audio_queue = Gst.ElementFactory.make (
 				"queue", "audioqueue"
@@ -220,7 +227,14 @@ namespace Streaming
 		public void set_rtmp (string url, string key)
 		{
 			rtmp_sink.set ("location", url + "/" + key);
+                        return;
 		}
+
+                public void set_volume (double val)
+                {
+                        audio_volume.set ("volume", val);
+                        return;
+                }
 
 	}
 }

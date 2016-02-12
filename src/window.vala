@@ -33,6 +33,8 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
 	private Gtk.ToggleButton both_button;
 
+        private Gtk.VolumeButton volume_button;
+
 	/**
 	 * a signal on which the application can listen to start streaming
 	 */
@@ -62,6 +64,11 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 	 * signal to switch streaming source to both screen and webcam
 	 */
 	public signal void switch_to_both ();
+        
+        /**
+         * signal to change the audio source volume
+         */
+        public signal void change_volume (double volume_val);
 
 	private const GLib.ActionEntry ations[] = {
 		{"settings", show_settings}
@@ -96,6 +103,8 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 		screen_button = new Gtk.ToggleButton.with_label ("Screen");
 		both_button = new Gtk.ToggleButton.with_label ("Both");
 
+                volume_button = new Gtk.VolumeButton ();
+
 		button_box.add (record_button);
 
 		button_box.add (webcam_button);
@@ -103,6 +112,8 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 		button_box.add (screen_button);
 
 		button_box.add (both_button);
+
+                button_box.add (volume_button);
 
 		this.add (button_box);
 
@@ -133,6 +144,10 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 		both_button.toggled.connect (
 			on_both_button_press_event
 			);
+
+                volume_button.value_changed.connect (
+                        on_volume_change_event
+                        );
 	}
 
 	public void on_record_button_press_event ()
@@ -208,6 +223,12 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 		}
 		return;
 	}
+
+        public void on_volume_change_event (double val)
+        {
+                change_volume (val); 
+                return;
+        }
 
 	public void show_settings ()
 	{

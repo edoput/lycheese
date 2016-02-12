@@ -297,6 +297,13 @@ public class Lycheese.Application : Gtk.Application
 			switch_to_both_source
 			);
 
+                // when change_volume is recieved
+                // set the audio source volume to
+                // the value provided
+                main_window.change_volume.connect (
+                        change_audio_source_volume
+                        );
+
 		// when the user enter the url and key
 		// pair pass it to the pipeline and
 		// start streaming
@@ -362,4 +369,13 @@ public class Lycheese.Application : Gtk.Application
 	{
 		streaming_pipeline.stream_both ();
 	}
+        
+        /*
+         * set the audio source volume to value `val`
+         */
+        private void change_audio_source_volume (double val)
+        {
+                stdout.puts ("relax");
+//                 streaming_pipeline.set_volume (val);
+        }
 }
