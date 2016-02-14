@@ -57,9 +57,7 @@ make
 
 # Install
 
-```bash
-make install
-```
+Not ready
 
 # Why Vala?
 
