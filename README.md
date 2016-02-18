@@ -5,6 +5,9 @@ Lycheese
 
 Lycheese is an application to stream live events from your device to services like Youtube Live, Twich, Ustream etc.
 
+Lycheese is Free and Open Source Software and is licensed under the GLP3 license ([what does this mean][gpl3])
+
+
 # What's working?
 
 It compiles and can stream to a server whose address is ~~hardcoded~~ provided by the user (tried with Youtube).
@@ -96,6 +99,8 @@ Changing the init file will require a restart `sudo /etc/init.d/srs restart` .
 Log in Youtube and go to the "Live streaming" section, scroll down till the config card, there are both the rtmp url and stream key.
 
 [lychee_on_wikipedia]: https://en.wikipedia.org/wiki/Lychee
+[gpl3]: http://www.gnu.org/licenses/gpl-faq.en.html
 [sliced_thread]: http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-ugly-plugins/html/gst-plugins-ugly-plugins-x264enc.html#GstX264Enc--sliced-threads
 [srs]: https://github.com/simple-rtmp-server/srs
 [srs_binaries]: http://winlinvip.github.io/srs.release/releases/
+
