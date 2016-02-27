@@ -338,27 +338,48 @@ public class Lycheese.Application : Gtk.Application
 	{
                 // the pipeline has been created and could be started
                 streaming_pipeline.pipeline_start_ok.connect (
-                        notify_streaming_ok
+                        notify_streaming_start_ok
                 );
                 // the pipeline could not be started
                 streaming_pipeline.pipeline_start_error.connect (
-                        notify_streaming_error
+                        notify_streaming_start_error
+                );
+
+                // the pipeline was stopped
+                streaming_pipeline.pipeline_stop_ok.connect (
+                     notify_streaming_stop_ok
+                );
+
+                // the pipeline could not be stopped
+                streaming_pipeline.pipeline_stop_error.connect (
+                     notify_streaming_stop_error
                 );
 	}
 
 
-        private void notify_streaming_ok ()
+        private void notify_streaming_start_ok ()
         {
                 lycheese_notification.set_body ("Your video is streaming");
                 this.send_notification ("Started streaming", lycheese_notification);
         }
 
-        private void notify_streaming_error ()
+        private void notify_streaming_start_error ()
         {
-                lycheese_notification.set_body ("Could not start the streaming, error with Gstreamer pipeline");
-                this.send_notification ("Started streaming", lycheese_notification);
+                lycheese_notification.set_body ("Could not start the streaming, error with GStreamer pipeline");
+                this.send_notification ("Lycheese encountered an error", lycheese_notification);
         }
 
+        private void notify_streaming_stop_ok ()
+        {
+                lycheese_notification.set_body ("Your screencast is stopped");
+                this.send_notification ("Stopped streaming", lycheese_notification);
+        }
+
+        private void notify_streaming_stop_error ()
+        {
+                lycheese_notification.set_body ("Could not stop the streaming, error with GStreamer pipeline");
+                this.send_notification ("Lycheese encountered an error", lycheese_notification);
+        }
 	/**
 	 * show the dialog asking the url, key pair
 	 */

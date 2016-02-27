@@ -34,6 +34,8 @@ namespace Streaming
 
                 public signal void pipeline_start_error ();
                 public signal void pipeline_start_ok ();
+                public signal void pipeline_stop_error ();
+                public signal void pipeline_stop_ok ();
 
 		public StreamPipeline ()
 		{
@@ -204,8 +206,10 @@ namespace Streaming
 			if (ret == Gst.StateChangeReturn.FAILURE)
 			{
 				stderr.puts ("Could not stop pipeline\n");
+                                pipeline_stop_error ();
 			} else {
 				stdout.puts ("Pipeline was stopped\n");
+                                pipeline_stop_ok ();
 			}
 		}
 
