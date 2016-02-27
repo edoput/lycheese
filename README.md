@@ -25,6 +25,10 @@ Run **Lycheese** and click on "Record and stream", the app will prompt you for t
 - [ ] Input validation
 - [ ] feedback from Gstreamer to the user
 
+# How can I contribute?
+
+See [CONTRIBUTING.MD]()
+
 # Why The Name?
 
 A bad pun of mine based on "Live Cheese" where cheese is one of the Gnome project apps, and imho one of the best piece of software you can get your hands on to record your funny faces :P
@@ -74,6 +78,8 @@ Don't know, seemed pretty
 
 # How can I test the streaming?
 
+There are two easy way, install a local rtmp server or use one like Youtube Live.
+
 ## local server
 
 Install the [simple rmtp server][srs], you can download binaries for [Ubuntu 14.04][srs_binaries], and there is a INSTALL file, just run it with `sudo ./INSTALL`.
@@ -103,4 +109,4 @@ Log in Youtube and go to the "Live streaming" section, scroll down till the conf
 [sliced_thread]: http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-ugly-plugins/html/gst-plugins-ugly-plugins-x264enc.html#GstX264Enc--sliced-threads
 [srs]: https://github.com/simple-rtmp-server/srs
 [srs_binaries]: http://winlinvip.github.io/srs.release/releases/
-
+[contributing_file]: https://github.com/EdoPut/lycheese/blob/master/CONTRIBUTING.md
