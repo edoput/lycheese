@@ -443,7 +443,6 @@ public class Lycheese.Application : Gtk.Application
          */
         private void change_audio_source_volume (double val)
         {
-                stdout.puts ("relax");
-//                 streaming_pipeline.set_volume (val);
+                streaming_pipeline.set_volume (val);
         }
 }

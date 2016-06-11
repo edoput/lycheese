@@ -25,6 +25,8 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 	 */
 	private Gtk.ButtonBox button_box;
 
+        private Gtk.HeaderBar header_bar;
+
 	private Gtk.ToggleButton record_button;
 
 	private Gtk.ToggleButton webcam_button;
@@ -91,6 +93,13 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
 		this.destroy.connect (Gtk.main_quit);
 
+                // header
+                header_bar = new Gtk.HeaderBar ();
+
+                header_bar.set_title ("Lycheese");
+                header_bar.set_show_close_button (true);
+                // end header
+
 		button_box = new Gtk.ButtonBox (
 	        	Gtk.Orientation.VERTICAL
 		);
@@ -113,8 +122,10 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
 		button_box.add (both_button);
 
-                button_box.add (volume_button);
+                // fill header
+                header_bar.pack_end (volume_button);
 
+                this.set_titlebar (header_bar);
 		this.add (button_box);
 
 		this.show_all ();
