@@ -1,6 +1,6 @@
 # AC_INIT (package, version, [bug-report], [tarname], [url])
 AC_INIT([Lycheese],
-        [1.0],
+        [1.1],
         [https://github.com/EdoPut/lycheese/issues],
         [lycheese],
         [https://github.com/EdoPut/lycheese])
