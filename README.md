@@ -64,7 +64,11 @@ make
 
 # Install
 
-Not ready
+Build it and then 
+
+```bash
+sudo make install
+```
 
 # Why Vala?
 
