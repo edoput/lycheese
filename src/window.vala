@@ -104,7 +104,10 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 	        	Gtk.Orientation.VERTICAL
 		);
 
-		button_box.homogeneous = true;
+                // same width buttons
+		//button_box.homogeneous = true;
+                // fill the container
+                button_box.set_layout (Gtk.ButtonBoxStyle.EXPAND);
 
 		record_button = new Gtk.ToggleButton.with_label ("Record and stream");
 
