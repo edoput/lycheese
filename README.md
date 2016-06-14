@@ -1,7 +1,7 @@
 Lycheese
 ========
 
-![Lycheese running](/img/lycheese_screenshot.png)
+![Lycheese running](https://cloud.githubusercontent.com/assets/4076473/16036222/36533494-321b-11e6-9be5-6b6b166de4cc.png)
 
 Lycheese is an application to stream live events from your device to services like Youtube Live, Twich, Ustream etc.
 
@@ -20,7 +20,7 @@ Run **Lycheese** and click on "Record and stream", the app will prompt you for t
 
 - [x] ~~Getting user input for the service url.~~
 - [ ] Enable different video sources (screen is the only available ATM) 
-- [ ] Provide a mute button.
+- [x] Provide a mute button.
 - [ ] Dynamic source switching.
 - [ ] Input validation
 - [ ] feedback from Gstreamer to the user
