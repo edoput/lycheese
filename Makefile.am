@@ -1,5 +1,8 @@
 bin_PROGRAMS = lycheese
 
+desktopdir = $(datadir)/applications
+desktop_DATA = it.edoput.Lycheese.desktop
+
 lycheese_SOURCES = \
 		   src/main.vala \
                    src/application.vala \
