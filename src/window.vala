@@ -117,6 +117,11 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
                 volume_button = new Gtk.VolumeButton ();
 
+                // set default value
+                volume_button.set_value (1.0);
+
+                // place buttons inside container
+
 		button_box.add (record_button);
 
 		button_box.add (webcam_button);
