@@ -23,7 +23,7 @@ Run **Lycheese** and click on "Record and stream", the app will prompt you for t
 - [x] Provide a mute button.
 - [ ] Dynamic source switching.
 - [ ] Input validation
-- [ ] feedback from Gstreamer to the user
+- [x] feedback from Gstreamer to the user
 
 # How can I contribute?
 
