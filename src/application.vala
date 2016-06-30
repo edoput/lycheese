@@ -44,9 +44,9 @@ public class Lycheese.Application : Gtk.Application
 	// static  PreferencesWindow preferences_window;
 
 	/**
-	 * dialog: prompt user for rtmp url
+	 * Assistant: prompt user for credentials
 	 */
-	static RtmpUrlDialog rtmp_url_dialog;
+	static Assistant assistant;
 
 	/**
 	 * the GStreamer pipeline we use to process and
@@ -99,7 +99,7 @@ public class Lycheese.Application : Gtk.Application
 
 			main_window = new Lycheese.MainWindow (this);
 
-			rtmp_url_dialog = new Lycheese.RtmpUrlDialog (main_window);
+			assistant = new Lycheese.Assistant ();
 
 			streaming_pipeline = new Streaming.StreamPipeline ();
 
@@ -256,7 +256,7 @@ public class Lycheese.Application : Gtk.Application
 	 * - switch_to_webcam
 	 * - switch_to_both
          *
-         * Application listen for these signals from the rtmp_url_dialog
+         * Application listen for these signals from the Assistant
          *
          * - url_entered
          *
@@ -316,9 +316,13 @@ public class Lycheese.Application : Gtk.Application
 		// when the user enter the url and key
 		// pair pass it to the pipeline and
 		// start streaming
-		rtmp_url_dialog.url_entered.connect (
-			start_streaming
-		);
+                assistant.url_entered.connect (
+                     start_streaming
+                );
+
+                assistant.assistant_cancel.connect (
+                     main_window.on_record_button_press_event
+                );
 	}
 
         
@@ -385,7 +389,7 @@ public class Lycheese.Application : Gtk.Application
 	 */
 	public void request_url ()
 	{
-		rtmp_url_dialog.show_all ();
+		assistant.show_all ();
 	}
 
 	/**

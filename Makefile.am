@@ -8,7 +8,7 @@ lycheese_SOURCES = \
                    src/application.vala \
                    src/streaming.vala \
                    src/cookies.vala \
-                   src/dialog.vala\
+                   src/assistant.vala\
                    src/window.vala
 
 lycheese_VALAFLAGS = \
