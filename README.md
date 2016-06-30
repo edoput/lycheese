@@ -43,17 +43,25 @@ And yes it is a [delicious fruit][lychee_on_wikipedia]
 	the subclass of Gtk.Application, where you can find the code that deals with the interactions
 - window.vala
 	the subclass of Gtk.WindowApplication, where you can find the code related to UI
+- assistant.vala
+        Interact with user, retrieve url, key pair
 - streaming.vala
 	the subclass of Gst.Pipeline, where you can find the code related to the task of audio/video processing
 - cookies.vala
         the struct where are stored the inhibition cookies 
 
-# Build
+# Install from packages
 
-Install `libgstreamer1.0-dev`, `libgtk3-dev`
+Just head to the [release page](https://github.com/EdoPut/lycheese/releases) and download the **deb** package.
+
+You can install the package with `apt-get`, `dpkg` or the Software Manager.
+
+# Build from sources
+
+Install `libgstreamer1.0-dev`, `libgtk-3-dev`
 
 ```bash
-sudo apt-get install libgstreamer1.0-dev libgtk3-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-base gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly
+sudo apt-get install libgstreamer1.0-dev libgtk-3-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-base gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly
 ```
 and then
 
@@ -62,7 +70,7 @@ and then
 make
 ```
 
-# Install
+# Install from sources
 
 Build it and then 
 
