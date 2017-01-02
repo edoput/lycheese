@@ -1,7 +1,7 @@
 Lycheese
 ========
 
-![Lycheese running](https://cloud.githubusercontent.com/assets/4076473/16036222/36533494-321b-11e6-9be5-6b6b166de4cc.png)
+![Lycheese running](https://cloud.githubusercontent.com/assets/4076473/21595306/d7cb9a0e-d12c-11e6-8483-16487adafc50.png)
 
 Lycheese is an application to stream live events from your device to services like Youtube Live, Twich, Ustream etc.
 
