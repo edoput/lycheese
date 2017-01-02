@@ -27,13 +27,15 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
         private Gtk.HeaderBar header_bar;
 
-	private Gtk.ToggleButton record_button;
-
 	private Gtk.ToggleButton webcam_button;
 
 	private Gtk.ToggleButton screen_button;
 
 	private Gtk.ToggleButton both_button;
+
+	private Gtk.Button record_button;
+
+	private Gtk.Button stop_button;
 
         private Gtk.VolumeButton volume_button;
 
@@ -109,20 +111,19 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
                 // fill the container
                 button_box.set_layout (Gtk.ButtonBoxStyle.EXPAND);
 
-		record_button = new Gtk.ToggleButton.with_label ("Record and stream");
 
 		webcam_button = new Gtk.ToggleButton.with_label ("Webcam");
 		screen_button = new Gtk.ToggleButton.with_label ("Screen");
 		both_button = new Gtk.ToggleButton.with_label ("Both");
 
+		record_button = new Gtk.Button.from_icon_name ("media-record", Gtk.IconSize.BUTTON);
+		stop_button = new Gtk.Button.from_icon_name ("media-playback-stop", Gtk.IconSize.BUTTON);
                 volume_button = new Gtk.VolumeButton ();
 
                 // set default value
                 volume_button.set_value (1.0);
 
                 // place buttons inside container
-
-		button_box.add (record_button);
 
 		button_box.add (webcam_button);
 
@@ -132,6 +133,8 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
                 // fill header
                 header_bar.pack_end (volume_button);
+                header_bar.pack_end (stop_button);
+                header_bar.pack_end (record_button);
 
                 this.set_titlebar (header_bar);
 		this.add (button_box);
@@ -148,8 +151,12 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 	private void register_callback ()
 	{
 
-		record_button.toggled.connect (
+		record_button.clicked.connect (
 			on_record_button_press_event
+			);
+
+		stop_button.clicked.connect (
+			on_stop_button_press_event
 			);
 
 		webcam_button.toggled.connect (
@@ -171,19 +178,19 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
 	public void on_record_button_press_event ()
 	{
-		if (record_button.active)
-		{
-			// trigger signal to start streaming
-			start_streaming ();
-			// lock the source by deactivating the sources buttons
-			lock_source ();
-		} else
-		{
-			// trigger signal to stop streaming
-			end_streaming ();
-			// unlock the source by activating the sources buttons
-			unlock_source ();
-		}
+                // trigger signal to start streaming
+                start_streaming ();
+                // lock the source by deactivating the sources buttons
+                lock_source ();
+		return;
+	}
+
+	public void on_stop_button_press_event ()
+	{
+                // trigger signal to stop streaming
+                end_streaming ();
+                // unlock the source by activating the sources buttons
+                unlock_source ();
 		return;
 	}
 
