@@ -35,7 +35,7 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
 	private Gtk.Button record_button;
 
-	private Gtk.Button stop_button;
+	private bool recording;
 
         private Gtk.VolumeButton volume_button;
 
@@ -117,7 +117,8 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 		both_button = new Gtk.ToggleButton.with_label ("Both");
 
 		record_button = new Gtk.Button.from_icon_name ("media-record", Gtk.IconSize.BUTTON);
-		stop_button = new Gtk.Button.from_icon_name ("media-playback-stop", Gtk.IconSize.BUTTON);
+		recording = false;
+
                 volume_button = new Gtk.VolumeButton ();
 
                 // set default value
@@ -133,7 +134,6 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
                 // fill header
                 header_bar.pack_end (volume_button);
-                header_bar.pack_end (stop_button);
                 header_bar.pack_end (record_button);
 
                 this.set_titlebar (header_bar);
@@ -155,9 +155,6 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 			on_record_button_press_event
 			);
 
-		stop_button.clicked.connect (
-			on_stop_button_press_event
-			);
 
 		webcam_button.toggled.connect (
 			on_webcam_button_press_event
@@ -178,19 +175,20 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
 	public void on_record_button_press_event ()
 	{
-                // trigger signal to start streaming
-                start_streaming ();
-                // lock the source by deactivating the sources buttons
-                lock_source ();
-		return;
-	}
-
-	public void on_stop_button_press_event ()
-	{
-                // trigger signal to stop streaming
-                end_streaming ();
-                // unlock the source by activating the sources buttons
-                unlock_source ();
+		if (recording) {
+			// trigger signal to stop streaming
+			end_streaming ();
+			recording = false;
+			var record_image = new Gtk.Image.from_icon_name("media-record", Gtk.IconSize.BUTTON);
+			record_button.set_image (record_image);
+		} else {
+			// trigger signal to start streaming
+			start_streaming ();
+			recording = true;
+			var stop_image = new Gtk.Image.from_icon_name("media-playback-stop", Gtk.IconSize.BUTTON);
+			record_button.set_image (stop_image);
+		}
+		record_button.show_now ();
 		return;
 	}
 
