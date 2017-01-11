@@ -212,7 +212,6 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 			// source to screen
 			switch_to_screen ();
 			webcam_button.set_active (false);
-			both_button.set_active (false);
 		} else
 		{
 			// trigger signal to switch video
@@ -222,15 +221,6 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 		return;
 	}
 
-	public void on_both_button_press_event ()
-	{
-		if (both_button.active)
-		{
-			// trigger signal to switch video
-			// source to both webcam and screen
-			switch_to_both ();
-			screen_button.set_active (false);
-			webcam_button.set_active (false);
 		} else
 		{
 			// trigger signal to switch video
@@ -255,13 +245,11 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 	{
 			screen_button.set_sensitive (false);
 			webcam_button.set_sensitive (false);
-			both_button.set_sensitive (false);
 	}
 
 	public void unlock_source ()
 	{
 			screen_button.set_sensitive (true);
 			webcam_button.set_sensitive (true);
-			both_button.set_sensitive (true);
 	}
 }
