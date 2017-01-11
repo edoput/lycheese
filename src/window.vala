@@ -31,7 +31,6 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
 	private Gtk.ToggleButton screen_button;
 
-	private Gtk.ToggleButton both_button;
 
 	private Gtk.Button record_button;
 
@@ -114,7 +113,6 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
 		webcam_button = new Gtk.ToggleButton.with_label ("Webcam");
 		screen_button = new Gtk.ToggleButton.with_label ("Screen");
-		both_button = new Gtk.ToggleButton.with_label ("Both");
 
 		record_button = new Gtk.Button.from_icon_name ("media-record", Gtk.IconSize.BUTTON);
 		recording = false;
@@ -129,8 +127,6 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 		button_box.add (webcam_button);
 
 		button_box.add (screen_button);
-
-		button_box.add (both_button);
 
                 // fill header
                 header_bar.pack_end (volume_button);
@@ -162,10 +158,6 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
 		screen_button.toggled.connect (
 			on_screen_button_press_event
-			);
-
-		both_button.toggled.connect (
-			on_both_button_press_event
 			);
 
                 volume_button.value_changed.connect (
