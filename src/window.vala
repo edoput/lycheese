@@ -27,10 +27,9 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
         private Gtk.HeaderBar header_bar;
 
-	private Gtk.ToggleButton webcam_button;
+	private Gtk.Switch webcam_button;
 
-	private Gtk.ToggleButton screen_button;
-
+	private Gtk.Switch screen_button;
 
 	private Gtk.Button record_button;
 
@@ -107,12 +106,10 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
                 // same width buttons
 		//button_box.homogeneous = true;
-                // fill the container
-                button_box.set_layout (Gtk.ButtonBoxStyle.EXPAND);
 
 
-		webcam_button = new Gtk.ToggleButton.with_label ("Webcam");
-		screen_button = new Gtk.ToggleButton.with_label ("Screen");
+		webcam_button = new Gtk.Switch ();
+		screen_button = new Gtk.Switch ();
 
 		record_button = new Gtk.Button.from_icon_name ("media-record", Gtk.IconSize.BUTTON);
 		recording = false;
@@ -151,12 +148,11 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 			on_record_button_press_event
 			);
 
-
-		webcam_button.toggled.connect (
+		webcam_button.notify["active"].connect (
 			on_webcam_button_press_event
 			);
 
-		screen_button.toggled.connect (
+		screen_button.notify["active"].connect (
 			on_screen_button_press_event
 			);
 
@@ -243,13 +239,9 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
 	public void lock_source ()
 	{
-			screen_button.set_sensitive (false);
-			webcam_button.set_sensitive (false);
 	}
 
 	public void unlock_source ()
 	{
-			screen_button.set_sensitive (true);
-			webcam_button.set_sensitive (true);
 	}
 }
