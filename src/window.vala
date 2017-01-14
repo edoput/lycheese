@@ -106,9 +106,24 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 		// same with colums
 		button_box.set_column_homogeneous (true);
 
+		var screen_label = new Gtk.Label ("Screen");
+
+		screen_label.margin = 12;
+		screen_button = new Gtk.Switch ();
+		screen_button.set_halign (Gtk.Align.CENTER);
+		screen_button.set_valign (Gtk.Align.CENTER);
+
+		var webcam_label = new Gtk.Label ("Webcam");
+		webcam_label.margin = 12;
 
 		webcam_button = new Gtk.Switch ();
-		screen_button = new Gtk.Switch ();
+		webcam_button.set_halign (Gtk.Align.CENTER);
+		webcam_button.set_valign (Gtk.Align.CENTER);
+
+		button_box.attach (screen_label , 0, 0, 1, 1);
+		button_box.attach (screen_button, 1, 0, 1, 1);
+		button_box.attach (webcam_label , 0, 1, 1, 1);
+		button_box.attach (webcam_button, 1, 1, 1, 1);
 
 		record_button = new Gtk.Button.from_icon_name ("media-record", Gtk.IconSize.BUTTON);
 		recording = false;
@@ -117,12 +132,6 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
                 // set default value
                 volume_button.set_value (1.0);
-
-                // place buttons inside container
-
-		button_box.add (webcam_button);
-
-		button_box.add (screen_button);
 
                 // fill header
                 header_bar.pack_end (volume_button);
