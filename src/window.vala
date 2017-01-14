@@ -88,6 +88,7 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 	
 	private void init_gui () {
 		this.title = "Lycheese";
+		this.resizable = false;
 
 		this.window_position = WindowPosition.CENTER;
 
