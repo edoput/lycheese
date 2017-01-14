@@ -23,7 +23,7 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 	/**
 	 *  the variables we are using to build the interface
 	 */
-	private Gtk.ButtonBox button_box;
+	private Gtk.Grid button_box;
 
         private Gtk.HeaderBar header_bar;
 
@@ -100,12 +100,10 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
                 header_bar.set_show_close_button (true);
                 // end header
 
-		button_box = new Gtk.ButtonBox (
-	        	Gtk.Orientation.VERTICAL
-		);
+		button_box = new Gtk.Grid ();
 
-                // same width buttons
-		//button_box.homogeneous = true;
+		// same with colums
+		button_box.set_column_homogeneous (true);
 
 
 		webcam_button = new Gtk.Switch ();
