@@ -196,8 +196,6 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 			// source to webcam
 			switch_to_webcam ();
 
-			// untoggle the other buttons
-			screen_button.set_active (false);
 		} else
 		{
 			// trigger signal to switch video
@@ -214,7 +212,6 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 			// trigger signal to switch video
 			// source to screen
 			switch_to_screen ();
-			webcam_button.set_active (false);
 		} else
 		{
 			// trigger signal to switch video
@@ -233,13 +230,5 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 	public void show_settings ()
 	{
 		return;
-	}
-
-	public void lock_source ()
-	{
-	}
-
-	public void unlock_source ()
-	{
 	}
 }
