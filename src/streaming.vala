@@ -218,30 +218,6 @@ namespace Streaming
                                 pipeline_stop_ok ();
 			}
 		}
-
-		public bool stream_webcam ()
-		{
-			return true;
-		}
-
-		public bool stream_screen ()
-		{
-			return true;
-		}
-
-		public bool stream_both ()
-		{
-			return true;
-		}
-
-		public bool stream_default ()
-		{
-			return true;
-		}
-
-		public void set_rtmp (string url, string key)
-		{
-			rtmp_sink.set ("location", url + "/" + key);
                         return;
 		}
 
