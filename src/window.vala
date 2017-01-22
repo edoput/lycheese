@@ -130,25 +130,6 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
         }
 
 
-	public void on_record_button_press_event ()
-	{
-		if (recording) {
-			// trigger signal to stop streaming
-			end_streaming ();
-			recording = false;
-			var record_image = new Gtk.Image.from_icon_name("media-record", Gtk.IconSize.BUTTON);
-			record_button.set_image (record_image);
-		} else {
-			// trigger signal to start streaming
-			start_streaming ();
-			recording = true;
-			var stop_image = new Gtk.Image.from_icon_name("media-playback-stop", Gtk.IconSize.BUTTON);
-			record_button.set_image (stop_image);
-		}
-		record_button.show_now ();
-		return;
-	}
-
 	public void on_webcam_button_press_event ()
 	{
 		if (webcam_button.active)
@@ -157,22 +138,6 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 			// source to webcam
 			switch_to_webcam ();
 
-		} else
-		{
-			// trigger signal to switch video
-			// source to default
-			switch_to_default ();
-		}
-		return;
-	}
-
-	public void on_screen_button_press_event ()
-	{
-		if (screen_button.active)
-		{
-			// trigger signal to switch video
-			// source to screen
-			switch_to_screen ();
 		} else
 		{
 			// trigger signal to switch video
