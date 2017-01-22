@@ -176,6 +176,9 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
         public void make_updated_pipeline ()
         {
                 var updated_pipeline = Pipeline () {
+                        url = "",
+                        key = "",
+                        state = recording ? Gst.State.NULL : Gst.State.PLAYING,
                         volume = volume_button.get_value (),
                         screen = screen_button.get_state (),
                         webcam = webcam_button.get_state ()

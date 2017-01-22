@@ -19,6 +19,9 @@ using GLib;
 namespace Streaming
 {
         struct Pipeline {
+                public string url;
+                public string key;
+                public Gst.State state;
                 public double volume;
                 public bool screen;
                 public bool webcam;
@@ -217,7 +220,6 @@ namespace Streaming
 				stdout.puts ("Pipeline was stopped\n");
                                 pipeline_stop_ok ();
 			}
-		}
                         return;
 		}
 
