@@ -212,11 +212,6 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
                 return;
         }
 
-	public void show_settings ()
-	{
-		return;
-	}
-
         public void make_updated_pipeline ()
         {
                 var updated_pipeline = Pipeline () {
