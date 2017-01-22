@@ -245,12 +245,11 @@ namespace Streaming
                         return;
 		}
 
-                public void set_volume (double val)
+                public void update (Pipeline updated)
                 {
-                        audio_volume.set ("volume", val);
+                        audio_volume.set ("volume", updated.volume);
                         return;
                 }
-
-	}
+        }
 }
 
