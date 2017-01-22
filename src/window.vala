@@ -217,4 +217,17 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 	{
 		return;
 	}
+
+        public void make_updated_pipeline ()
+        {
+                var updated_pipeline = Pipeline () {
+                        volume = volume_button.get_value (),
+                        screen = screen_button.get_state (),
+                        webcam = webcam_button.get_state ()
+                };
+
+                update_pipeline (updated_pipeline);
+                return;
+        }
+
 }
