@@ -409,41 +409,37 @@ public class Lycheese.Application : Gtk.Application
 		streaming_pipeline.end_stream ();
 	}
 
-	/**
-	 * switch the streaming_pipeline to the default
-	 * source
-	 */
-	private void switch_to_default_source ()
-	{
-		streaming_pipeline.stream_default ();
-	}
-
-	/**
-	 * set the streaming_pipeline source to screen
-	 */
-	private void switch_to_screen_source ()
-	{
-		streaming_pipeline.stream_screen ();
-	}
-
-	/**
-	 * set the streaming_pipeline source to screen
-	 */
-	private void switch_to_webcam_source ()
-	{
-		streaming_pipeline.stream_webcam ();
-	}
-
-	/**
-	 * set the streaming_pipeline source to screen
-	 */
-	private void switch_to_both_source ()
-	{
-		streaming_pipeline.stream_both ();
-	}
         
         /*
          * set the audio source volume to value `val`
+        /**
+         * show the dialog asking the url, key pair
+         */
+        public void request_url ()
+        {
+                assistant.show_all ();
+        }
+
+        /**
+         * start the streaming_pipeline
+         */
+        private void start_streaming (string url, string key)
+        {
+                streaming_pipeline.set_rtmp (url, key);
+                streaming_pipeline.stream ();
+        }
+
+        /**
+         * stop the streaming_pipeline
+         */
+        private void stop_streaming ()
+        {
+                streaming_pipeline.end_stream ();
+        }
+
+        /**
+         * switch the streaming_pipeline to the default
+         * source
          */
         private void update_pipeline (Streaming.Pipeline updated)
         {
