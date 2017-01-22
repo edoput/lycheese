@@ -130,23 +130,6 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
         }
 
 
-	public void on_webcam_button_press_event ()
-	{
-		if (webcam_button.active)
-		{
-			// trigger signal to switch video
-			// source to webcam
-			switch_to_webcam ();
-
-		} else
-		{
-			// trigger signal to switch video
-			// source to default
-			switch_to_default ();
-		}
-		return;
-	}
-
         public void on_volume_change_event (double val)
         {
                 change_volume (val); 
