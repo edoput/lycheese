@@ -14,15 +14,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 namespace Lycheese {
-	/**
-	 *  a struct to collect all the inhibit cookies
-	 */
+        /**
+         *  a struct to collect all the inhibit cookies
+         */
 
-	public struct CookieCollector
-	{
-		public uint logout_cookie;
-		public uint switch_user_cookie;
-		public uint suspend_cookie;
-		public uint idle_cookie;
-	}
+        public struct CookieCollector
+        {
+                public uint logout_cookie;
+                public uint switch_user_cookie;
+                public uint suspend_cookie;
+                public uint idle_cookie;
+        }
 }

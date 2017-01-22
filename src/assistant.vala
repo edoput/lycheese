@@ -21,15 +21,15 @@ using Gtk;
  */
 class Lycheese.Assistant : Gtk.Assistant
 {
-	/**
-	 * Variable to hold the rtmp url provided by the user
-	 */
-	static Gtk.Entry url_entry;
+        /**
+         * Variable to hold the rtmp url provided by the user
+         */
+        static Gtk.Entry url_entry;
 
-	/**
-	 *  Variable to hold the rtmp key provided by the user
-	 */
-	static Gtk.Entry key_entry;
+        /**
+         *  Variable to hold the rtmp key provided by the user
+         */
+        static Gtk.Entry key_entry;
 
         /**
          * Variables to hold the assistant pages

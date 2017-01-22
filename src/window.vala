@@ -19,22 +19,22 @@ using Streaming;
 
 class Lycheese.MainWindow : Gtk.ApplicationWindow
 {
-	private GLib.Settings settings;
+        private GLib.Settings settings;
 
-	/**
-	 *  the variables we are using to build the interface
-	 */
-	private Gtk.Grid button_box;
+        /**
+         *  the variables we are using to build the interface
+         */
+        private Gtk.Grid button_box;
 
         private Gtk.HeaderBar header_bar;
 
-	private Gtk.Switch webcam_button;
+        private Gtk.Switch webcam_button;
 
-	private Gtk.Switch screen_button;
+        private Gtk.Switch screen_button;
 
-	private Gtk.Button record_button;
+        private Gtk.Button record_button;
 
-	private bool recording;
+        private bool recording;
 
         private Gtk.VolumeButton volume_button;
 
@@ -58,27 +58,27 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
          */
         public signal void change_volume (double volume_val);
 
-	private const GLib.ActionEntry ations[] = {
-		{"settings", show_settings}
-	};
+        private const GLib.ActionEntry ations[] = {
+                {"settings", show_settings}
+        };
 
-	public MainWindow (Gtk.Application application)
-	{
-		GLib.Object (application: application);
+        public MainWindow (Gtk.Application application)
+        {
+                GLib.Object (application: application);
 
-		Gtk.Settings settings = Gtk.Settings.get_default ();
+                Gtk.Settings settings = Gtk.Settings.get_default ();
 
-		this.init_gui();
-		this.register_callback();
-	}
-	
-	private void init_gui () {
-		this.title = "Lycheese";
-		this.resizable = false;
+                this.init_gui();
+                this.register_callback();
+        }
 
-		this.window_position = WindowPosition.CENTER;
+        private void init_gui () {
+                this.title = "Lycheese";
+                this.resizable = false;
 
-		this.destroy.connect (Gtk.main_quit);
+                this.window_position = WindowPosition.CENTER;
+
+                this.destroy.connect (Gtk.main_quit);
 
                 // header
                 header_bar = new Gtk.HeaderBar ();
@@ -87,32 +87,32 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
                 header_bar.set_show_close_button (true);
                 // end header
 
-		button_box = new Gtk.Grid ();
+                button_box = new Gtk.Grid ();
 
-		// same with colums
-		button_box.set_column_homogeneous (true);
+                // same with colums
+                button_box.set_column_homogeneous (true);
 
-		var screen_label = new Gtk.Label ("Screen");
+                var screen_label = new Gtk.Label ("Screen");
 
-		screen_label.margin = 12;
-		screen_button = new Gtk.Switch ();
-		screen_button.set_halign (Gtk.Align.CENTER);
-		screen_button.set_valign (Gtk.Align.CENTER);
+                screen_label.margin = 12;
+                screen_button = new Gtk.Switch ();
+                screen_button.set_halign (Gtk.Align.CENTER);
+                screen_button.set_valign (Gtk.Align.CENTER);
 
-		var webcam_label = new Gtk.Label ("Webcam");
-		webcam_label.margin = 12;
+                var webcam_label = new Gtk.Label ("Webcam");
+                webcam_label.margin = 12;
 
-		webcam_button = new Gtk.Switch ();
-		webcam_button.set_halign (Gtk.Align.CENTER);
-		webcam_button.set_valign (Gtk.Align.CENTER);
+                webcam_button = new Gtk.Switch ();
+                webcam_button.set_halign (Gtk.Align.CENTER);
+                webcam_button.set_valign (Gtk.Align.CENTER);
 
-		button_box.attach (screen_label , 0, 0, 1, 1);
-		button_box.attach (screen_button, 1, 0, 1, 1);
-		button_box.attach (webcam_label , 0, 1, 1, 1);
-		button_box.attach (webcam_button, 1, 1, 1, 1);
+                button_box.attach (screen_label , 0, 0, 1, 1);
+                button_box.attach (screen_button, 1, 0, 1, 1);
+                button_box.attach (webcam_label , 0, 1, 1, 1);
+                button_box.attach (webcam_button, 1, 1, 1, 1);
 
-		record_button = new Gtk.Button.from_icon_name ("media-record", Gtk.IconSize.BUTTON);
-		recording = false;
+                record_button = new Gtk.Button.from_icon_name ("media-record", Gtk.IconSize.BUTTON);
+                recording = false;
 
                 volume_button = new Gtk.VolumeButton ();
 

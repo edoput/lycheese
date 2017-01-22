@@ -23,13 +23,13 @@ using Streaming;
  */
 public class Lycheese.Application : Gtk.Application
 {
-	/**
-	 * where we store the result from the inhibition
-	 * of idling, suspension, log out and switch user
-	 */
-	private CookieCollector cookie_collector;
+        /**
+         * where we store the result from the inhibition
+         * of idling, suspension, log out and switch user
+         */
+        private CookieCollector cookie_collector;
 
-	private GLib.Settings settings;
+        private GLib.Settings settings;
 
         /**
          * the notification we can fire to inform the user
@@ -37,285 +37,248 @@ public class Lycheese.Application : Gtk.Application
          */
         private GLib.Notification lycheese_notification;
 
-	/**
-	 * the window associated to the application
-	 */
-	static	MainWindow main_window;
-	// static  PreferencesWindow preferences_window;
+        /**
+         * the window associated to the application
+         */
+        static  MainWindow main_window;
+        // static  PreferencesWindow preferences_window;
 
-	/**
-	 * Assistant: prompt user for credentials
-	 */
-	static Assistant assistant;
+        /**
+         * Assistant: prompt user for credentials
+         */
+        static Assistant assistant;
 
-	/**
-	 * the GStreamer pipeline we use to process and
-	 * stream the audio/video sources
-	 */
-	static  Streaming.StreamPipeline streaming_pipeline;
-	
-
-	/*
-	 * Actions to be presented to the user from the
-	 * application menu
-	 */
-	private const GLib.ActionEntry action_entries[] = {
-		{ "preferences", on_preferences },
-		{ "help", on_help },
-		{ "about", on_about},
-		{ "quit", on_quit }
-	};
-
-	/**
-	 * Constructor of the Lycheese.Application class
-	 */
-	public Application ()
-	{
-		GLib.Object(
-				application_id: "it.edoput.Lycheese",
-				flags: ApplicationFlags.FLAGS_NONE
-			   );
-	}
+        /**
+         * the GStreamer pipeline we use to process and
+         * stream the audio/video sources
+         */
+        static  Streaming.StreamPipeline streaming_pipeline;
 
 
-	/**
-	 * Called from the method activate to bootstrap the application
-	 * and its components
-	 *
-	 * 1. create the main_window
-	 * 2. create the streaming pipeline
-	 * 3. add main_window to the application windows list
-	 */
-	private void common_init ()
-	{
-		if (this.get_windows () == null)
-		{
-			// var gtk_settings = Gtk.Settings.get_default ();
+        /*
+         * Actions to be presented to the user from the
+         * application menu
+         */
+        private const GLib.ActionEntry action_entries[] = {
+                { "preferences", on_preferences },
+                { "help", on_help },
+                { "about", on_about},
+                { "quit", on_quit }
+        };
 
-			// if (gtk_settings != null)
-			// {
-			// 	gtk_settings.Gtk_application_prefer_dark_theme = true;
-			// }
+        /**
+         * Constructor of the Lycheese.Application class
+         */
+        public Application ()
+        {
+                GLib.Object(
+                                application_id: "it.edoput.Lycheese",
+                                flags: ApplicationFlags.FLAGS_NONE
+                           );
+        }
 
-			main_window = new Lycheese.MainWindow (this);
 
-			assistant = new Lycheese.Assistant ();
+        /**
+         * Called from the method activate to bootstrap the application
+         * and its components
+         *
+         * 1. create the main_window
+         * 2. create the streaming pipeline
+         * 3. add main_window to the application windows list
+         */
+        private void common_init ()
+        {
+                if (this.get_windows () == null)
+                {
+                        // var gtk_settings = Gtk.Settings.get_default ();
 
-			streaming_pipeline = new Streaming.StreamPipeline ();
+                        main_window = new Lycheese.MainWindow (this);
+
+                        assistant = new Lycheese.Assistant ();
+
+                        streaming_pipeline = new Streaming.StreamPipeline ();
 
                         lycheese_notification = new GLib.Notification ("Lycheese");
-			// Lycheese's name get displayed even without this
-			// Environment.set_application_name ("Lycheese");
+                        // Lycheese's name get displayed even without this
+                        // Environment.set_application_name ("Lycheese");
 
-			this.add_window (main_window);
+                        this.add_window (main_window);
+                }
+        }
 
-		}
-	}
 
+        /**
+         * main window should be a singleton
+         *
+         * called when the main application wants to run
+         * in graphic mode
+         *
+         * 1. create the main_window and present it to the user
+         * 2. create the streaming_pipeline
+         * 3. inhibit every action the device could take that
+         * would interfer with the application streaming
+         * 4. listen for signal to start/end streaming
+         */
+        protected override void activate ()
+        {
+                if (this.get_windows () != null)
+                {
+                        // main_window is binded to the application;
+                        // if it has already been created just present
+                        // it to the user
+                        main_window.present ();
+                } else
+                {
+                        common_init ();
+                        common_inhibit ();
+                        listen_for_streaming_events ();
+                        listen_for_pipeline_events ();
+                }
+        }
 
-	/**
-	 * main window should be a singleton
-	 *
-	 * called when the main application wants to run
-	 * in graphic mode
-	 *
-	 * 1. create the main_window and present it to the user
-	 * 2. create the streaming_pipeline
-	 * 3. inhibit every action the device could take that
-	 * would interfer with the application streaming
-	 * 4. listen for signal to start/end streaming
-	 */
-	protected override void activate ()
-	{
-		if (this.get_windows () != null)
-		{
-			// main_window is binded to the application;
-			// if it has already been created just present
-			// it to the user
-			main_window.present ();
-		} else
-		{
-			common_init ();
-			common_inhibit ();
-			listen_for_streaming_events ();
-			listen_for_pipeline_events ();
-		}
-	}
+        /**
+         *
+         */
+        // protected override void startup ()
+        // {
+        //      add_action_entries (action_entries, this);
+        //      base.startup ();
+        // }
 
-	/**
-	 *
-	 */
-	// protected override void startup ()
-	// {
-	// 	add_action_entries (action_entries, this);
-	// 	base.startup ();
-	// }
+        /**
+         * Show the preferences dialog
+         */
+        private void on_preferences ()
+        {
+        //      if (preferences_window == null)
+        //      {
+        //              preferences_window = new SettingsWindow();
+        //              preferences_window.destroy.connect (
+        //                      ()=> {
+        //                              preferences_window = null;
+        //                      }
+        //              );
+        //              preferences_window.show_all ();
+        //      } else {
+        //              preferences_window.present ();
+        //      }
+        }
+        /**
+         * Display a brief help
+         */
+        private void on_help ()
+        {
+        }
+        /**
+         * Display a window with info about Lycheese
+         */
+        private void on_about ()
+        {
+        }
+        /**
+         * Destroy the main window, close application
+         */
+        private void on_quit ()
+        {
+                main_window.destroy ();
+        }
 
-	/**
-	 * Show the preferences dialog
-	 */
-	private void on_preferences ()
-	{
-	// 	if (preferences_window == null)
-	// 	{
-	// 		preferences_window = new SettingsWindow();
-	// 		preferences_window.destroy.connect (
-	// 			()=> {
-	// 				preferences_window = null;
-	// 			}
-	// 		);
-	// 		preferences_window.show_all ();
-	// 	} else {
-	// 		preferences_window.present ();
-	// 	}
-	}
-	/**
-	 * Display a brief help
-	 */
-	private void on_help ()
-	{
-	}
-	/**
-	 * Display a window with info about Lycheese
-	 */
-	private void on_about ()
-	{
-	}
-	/** 
-	 * Destroy the main window, close application
-	 */
-	private void on_quit ()
-	{
-		main_window.destroy ();
-	}
+        /**
+         * Ideally the user shouldn't be able to logout or switch,
+         * and the computer shouldn't go into suspension or idling
+         *
+         * Every inhibit action returns a different inhibit cookie
+         * that we should store to uninhibit later
+         */
+        private void common_inhibit ()
+        {
+                cookie_collector.logout_cookie = this.inhibit (
+                        main_window,
+                        Gtk.ApplicationInhibitFlags.LOGOUT,
+                        "Streaming your session inhibit logout"
+                );
 
-	/**
-	 * Ideally the user shouldn't be able to logout or switch,
-	 * and the computer shouldn't go into suspension or idling
-	 *
-	 * Every inhibit action returns a different inhibit cookie
-	 * that we should store to uninhibit later
-	 */
-	private void common_inhibit ()
-	{
-		cookie_collector.logout_cookie = this.inhibit (
-			main_window,
-			Gtk.ApplicationInhibitFlags.LOGOUT,
-			"Streaming your session inhibit logout"
-		);
+                if (cookie_collector.logout_cookie == 0)
+                {
+                        stderr.puts ("Could not inhibit logout");
+                }
 
-		if (cookie_collector.logout_cookie == 0)
-		{
-			stderr.puts ("Could not inhibit logout");
-		}
+                cookie_collector.switch_user_cookie = this.inhibit (
+                        main_window,
+                        Gtk.ApplicationInhibitFlags.SWITCH,
+                        "Streaming your session inhibit switch"
+                );
 
-		cookie_collector.switch_user_cookie = this.inhibit (
-			main_window,
-			Gtk.ApplicationInhibitFlags.SWITCH,
-			"Streaming your session inhibit switch"
-		);
+                if (cookie_collector.switch_user_cookie == 0)
+                {
+                        stderr.puts ("Could not inhibit switching user");
+                }
 
-		if (cookie_collector.switch_user_cookie == 0)
-		{
-			stderr.puts ("Could not inhibit switching user");
-		}
+                cookie_collector.suspend_cookie = this.inhibit (
+                        main_window,
+                        Gtk.ApplicationInhibitFlags.SUSPEND,
+                        "Streaming your session inhibit suspension"
+                );
 
-		cookie_collector.suspend_cookie = this.inhibit (
-			main_window,
-			Gtk.ApplicationInhibitFlags.SUSPEND,
-			"Streaming your session inhibit suspension"
-		);
+                if (cookie_collector.suspend_cookie == 0)
+                {
+                        stderr.puts ("Could not inhibit suspension");
+                }
 
-		if (cookie_collector.suspend_cookie == 0)
-		{
-			stderr.puts ("Could not inhibit suspension");
-		}
+                cookie_collector.idle_cookie = this.inhibit (
+                        main_window,
+                        Gtk.ApplicationInhibitFlags.IDLE,
+                        "Streaming your session inhibit idle"
+                );
 
-		cookie_collector.idle_cookie = this.inhibit (
-			main_window,
-			Gtk.ApplicationInhibitFlags.IDLE,
-			"Streaming your session inhibit idle"
-		);
-		
-		if (cookie_collector.idle_cookie == 0)
-		{
-			stderr.puts ("Could not inhibit idling");
-		}
+                if (cookie_collector.idle_cookie == 0)
+                {
+                        stderr.puts ("Could not inhibit idling");
+                }
 
-	}
+        }
 
-	/**
-	 * Introduced to listen for signals from the main_window.
-	 *
-	 * Application listen for these signals from main_window
-	 *
-	 * - start_streaming
-	 * - end_streaming
-	 * - switch_to_default
-	 * - switch_to_screen
-	 * - switch_to_webcam
-	 * - switch_to_both
+        /**
+         * Introduced to listen for signals from the main_window.
+         *
+         * Application listen for these signals from main_window
+         *
+         * - start_streaming
+         * - end_streaming
+         * - update_pipeline
          *
          * Application listen for these signals from the Assistant
          *
          * - url_entered
          *
-	 * 
-	 * [[https://wiki.gnome.org/Projects/Vala/SignalsAndCallbacks|signal in vala]]
-	 * [[http://valadoc.org/#!api=gobject-2.0/GLib.Signal|signals in GLib]]
-	 */
-	private void listen_for_streaming_events ()
-	{
-		// when start_streaming is recieved
-		// display the dialog asking the url
-		main_window.start_streaming.connect (
-			request_url
-			);
-
-		// when end_streaming is recieved
-		// stop the pipeline
-		main_window.end_streaming.connect (
-			stop_streaming
-			);
-			
-		// when switch_to_default is recieved
-		// set the source of the pipeline to
-		// the default one
-		main_window.switch_to_default.connect (
-			switch_to_default_source
-			);
-
-		// when switch_to_screen is recieved
-		// set the source of the pipeline to
-		// the screen
-		main_window.switch_to_screen.connect (
-			switch_to_screen_source
-			);
-
-		// when switch_to_webcam is recieved
-		// set the source of the pipeline to
-		// the webcam
-		main_window.switch_to_webcam.connect (
-			switch_to_webcam_source
-			);
-
-		// when switch_to_both is recieved
-		// set the source of the pipeline to
-		// both screen and webcam
-		main_window.switch_to_both.connect (
-			switch_to_both_source
-			);
-
-                // when change_volume is recieved
-                // set the audio source volume to
-                // the value provided
-                main_window.change_volume.connect (
-                        change_audio_source_volume
+         *
+         * [[https://wiki.gnome.org/Projects/Vala/SignalsAndCallbacks|signal in vala]]
+         * [[http://valadoc.org/#!api=gobject-2.0/GLib.Signal|signals in GLib]]
+         */
+        private void listen_for_streaming_events ()
+        {
+                // when start_streaming is recieved
+                // display the dialog asking the url
+                main_window.start_streaming.connect (
+                        request_url
                         );
 
-		// when the user enter the url and key
-		// pair pass it to the pipeline and
-		// start streaming
+                // when end_streaming is recieved
+                // stop the pipeline
+                main_window.end_streaming.connect (
+                        stop_streaming
+                        );
+
+                // when switch_to_both is recieved
+                // set the source of the pipeline to
+                // both screen and webcam
+                main_window.update_pipeline.connect (
+                        update_pipeline
+                        );
+
+                // when the user enter the url and key
+                // pair pass it to the pipeline and
+                // start streaming
                 assistant.url_entered.connect (
                      start_streaming
                 );
@@ -323,23 +286,23 @@ public class Lycheese.Application : Gtk.Application
                 assistant.assistant_cancel.connect (
                      main_window.on_record_button_press_event
                 );
-	}
+        }
 
-        
 
-	/**
-	 * Introduced to listen for signals from the pipeline
-	 *
-	 * Application listen for these signals from pipeline 
-	 *
-	 * - pipeline_start_ok
+
+        /**
+         * Introduced to listen for signals from the pipeline
+         *
+         * Application listen for these signals from pipeline
+         *
+         * - pipeline_start_ok
          * - pipeline_start_error
          *
-	 * [[https://wiki.gnome.org/Projects/Vala/SignalsAndCallbacks|signal in vala]]
-	 * [[http://valadoc.org/#!api=gobject-2.0/GLib.Signal|signals in GLib]]
-	 */
-	private void listen_for_pipeline_events ()
-	{
+         * [[https://wiki.gnome.org/Projects/Vala/SignalsAndCallbacks|signal in vala]]
+         * [[http://valadoc.org/#!api=gobject-2.0/GLib.Signal|signals in GLib]]
+         */
+        private void listen_for_pipeline_events ()
+        {
                 // the pipeline has been created and could be started
                 streaming_pipeline.pipeline_start_ok.connect (
                         notify_streaming_start_ok
@@ -358,7 +321,7 @@ public class Lycheese.Application : Gtk.Application
                 streaming_pipeline.pipeline_stop_error.connect (
                      notify_streaming_stop_error
                 );
-	}
+        }
 
 
         private void notify_streaming_start_ok ()
@@ -384,34 +347,6 @@ public class Lycheese.Application : Gtk.Application
                 lycheese_notification.set_body ("Could not stop the streaming, error with GStreamer pipeline");
                 this.send_notification ("Lycheese encountered an error", lycheese_notification);
         }
-	/**
-	 * show the dialog asking the url, key pair
-	 */
-	public void request_url ()
-	{
-		assistant.show_all ();
-	}
-
-	/**
-	 * start the streaming_pipeline
-	 */
-	private void start_streaming (string url, string key)
-	{
-		streaming_pipeline.set_rtmp (url, key);
-		streaming_pipeline.stream ();
-	}
-
-	/**
-	 * stop the streaming_pipeline
-	 */
-	private void stop_streaming ()
-	{
-		streaming_pipeline.end_stream ();
-	}
-
-        
-        /*
-         * set the audio source volume to value `val`
         /**
          * show the dialog asking the url, key pair
          */
