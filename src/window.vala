@@ -129,10 +129,47 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
                 this.show_all ();
         }
 
-
-        public void on_volume_change_event (double val)
+        /**
+         * connect the toggle on/off events from buttons
+         * to the correct handler
+         */
+        private void register_callback ()
         {
-                change_volume (val); 
+
+                record_button.clicked.connect (() => {
+                        on_record_button_press_event ();
+                        });
+
+                  webcam_button.notify["state"].connect (() => {
+                          make_updated_pipeline ();
+                          });
+
+                  screen_button.notify["state"].connect (() => {
+                          make_updated_pipeline ();
+                          });
+
+                  volume_button.value_changed.connect (() => {
+                          make_updated_pipeline ();
+                          });
+        }
+
+        public void on_record_button_press_event ()
+        {
+                if (recording) {
+                        // trigger signal to stop streaming
+                        end_streaming ();
+                        recording = false;
+                        var record_image = new Gtk.Image.from_icon_name("media-record", Gtk.IconSize.BUTTON);
+                        record_button.set_image (record_image);
+                } else {
+                        // trigger signal to start streaming
+                        make_updated_pipeline ();
+                        start_streaming ();
+                        recording = true;
+                        var stop_image = new Gtk.Image.from_icon_name("media-playback-stop", Gtk.IconSize.BUTTON);
+                        record_button.set_image (stop_image);
+                }
+                record_button.show_now ();
                 return;
         }
 
