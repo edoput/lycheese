@@ -445,8 +445,8 @@ public class Lycheese.Application : Gtk.Application
         /*
          * set the audio source volume to value `val`
          */
-        private void change_audio_source_volume (double val)
+        private void update_pipeline (Streaming.Pipeline updated)
         {
-                streaming_pipeline.set_volume (val);
+                streaming_pipeline.update (updated);
         }
 }
