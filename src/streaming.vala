@@ -18,9 +18,15 @@ using GLib;
 
 namespace Streaming
 {
-	class StreamPipeline : Gst.Pipeline	
-	{
-		private Gst.Element audio;
+        struct Pipeline {
+                public double volume;
+                public bool screen;
+                public bool webcam;
+        }
+
+        class StreamPipeline : Gst.Pipeline
+        {
+                private Gst.Element audio;
                 private Gst.Element audio_volume;
 		private Gst.Element audio_queue;
 		private Gst.Element aac_encoder;
