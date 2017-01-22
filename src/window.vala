@@ -130,30 +130,6 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
         }
 
 
-	/**
-	 * connect the toggle on/off events from buttons
-	 * to the correct handler
-	 */
-	private void register_callback ()
-	{
-
-		record_button.clicked.connect (
-			on_record_button_press_event
-			);
-
-		webcam_button.notify["active"].connect (
-			on_webcam_button_press_event
-			);
-
-		screen_button.notify["active"].connect (
-			on_screen_button_press_event
-			);
-
-                volume_button.value_changed.connect (
-                        on_volume_change_event
-                        );
-	}
-
 	public void on_record_button_press_event ()
 	{
 		if (recording) {
