@@ -15,6 +15,7 @@
 
 
 using Gtk;
+using Streaming;
 
 class Lycheese.MainWindow : Gtk.ApplicationWindow
 {
@@ -37,36 +38,21 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
 
         private Gtk.VolumeButton volume_button;
 
-	/**
-	 * a signal on which the application can listen to start streaming
-	 */
-	public signal void start_streaming ();
+        /**
+         * a signal on which the application can listen to start streaming
+         */
+        public signal void start_streaming ();
 
-	/**
-	 * a signal on which the application can listen to stop streaming
-	 */
-	public signal void end_streaming ();
+        /**
+         * a signal on which the application can listen to stop streaming
+         */
+        public signal void end_streaming ();
 
-	/**
-	 * signal to switch streaming source to default source
-	 */
-	public signal void switch_to_default ();
+        /**
+         * signal to update pipeline definition
+         */
+        public signal void update_pipeline (Pipeline updated_pipeline);
 
-	/**
-	 * signal to switch streaming source to screen
-	 */
-	public signal void switch_to_screen ();
-
-	/**
-	 * signal to switch streaming source to webcam
-	 */
-	public signal void switch_to_webcam ();
-	
-	/**
-	 * signal to switch streaming source to both screen and webcam
-	 */
-	public signal void switch_to_both ();
-        
         /**
          * signal to change the audio source volume
          */
