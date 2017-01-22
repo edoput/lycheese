@@ -124,12 +124,11 @@ class Lycheese.MainWindow : Gtk.ApplicationWindow
                 header_bar.pack_end (record_button);
 
                 this.set_titlebar (header_bar);
-		this.add (button_box);
+                this.add (button_box);
 
-		this.show_all ();
+                this.show_all ();
+        }
 
-		
-	}
 
 	/**
 	 * connect the toggle on/off events from buttons
