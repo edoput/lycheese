@@ -1,7 +1,9 @@
 project(
 	'lycheese',
 	'vala',
-	'c'
+	'c',
+	license: 'GPL3',
+	version: '1.3'
 )
 
 gtkdeps = dependency('gtk+-3.0')
